@@ -1,0 +1,179 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    box-sizing: border-box;
+    font-family: "Segoe UI Light", sans-serif;
+}
+
+
+.container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 200px 3fr;
+    grid-template-rows: 50px calc(100% - 50px);
+}
+
+.container > * {
+    border: var(--border);
+    background: green;
+}
+
+
+/*
+    Заголовок
+ */
+
+.dashboard-header {
+    background: #000;
+    color: #fff;
+    padding-left: 15px;
+    grid-column: span 2;
+}
+
+.dashboard-header__logo {
+    font-size: 1.2em;
+}
+
+
+
+/*
+    Левое меню
+ */
+
+/* ширина скролбара */
+::-webkit-scrollbar {
+    width: 1px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #092742;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.sidebar-menu {
+    background-color: #0e2438;
+    color: white;
+    overflow-y: auto;
+    scrollbar-color: red;
+}
+
+.sidebar-menu:hover .sidebar-menu__subitems {
+    display: block;
+}
+
+.sidebar-menu__items {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-menu__item {
+
+}
+
+.sidebar-menu__item > a {
+    text-decoration: none;
+    color: white;
+    font-size: 1em;
+    display: block;
+    margin: 1px 0;
+    padding: 10px 10px;
+    border: var(--border);
+}
+
+.sidebar-menu__item > a > i {
+    float: right;
+    padding-top: 2px;
+    padding-right: 5px;
+}
+
+.sidebar-menu__item > a > i:first-child {
+    float: left;
+}
+
+.sidebar-menu__item > a:hover {
+    background-color: #0b1c68;
+}
+
+
+/*
+Стили для подменю
+ */
+
+.sidebar-menu__subitems {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: block;
+}
+
+.sidebar-menu__subitem {
+
+}
+
+.sidebar-menu__subitem > a {
+    text-decoration: none;
+    color: white;
+    font-size: .9em;
+    display: block;
+    margin: 1px 0;
+    padding: 10px 30px;
+    border: var(--border);
+}
+
+.sidebar-menu__subitem > a:hover {
+    background-color: #0b1c68;
+}
+
+.sidebar-menu__subitem > a > i:first-child {
+    padding-right: 5px;
+}
+
+
+/*
+    Главный контент
+*/
+
+.main-content {
+    background-color: #f0f0f0;
+}
+.bot2 {
+        margin:20px auto;
+    color: #FFFFFF;
+    display: block;
+    font:bold 16px arial;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    text-decoration: none;
+    width: 160px;
+        background:linear-gradient(to bottom, #209DCA, #0F84AF) repeat scroll 0 0 / 100% 200% rgba(0, 0, 0, 0);
+    transition: all 0.5s linear 0s;
+        border-bottom: 4px solid #ccc;
+        border-radius: 30px;
+}
+.bot2:hover {
+    background-position: 0 -102%;
+}
+.bot2:focus{
+               background-position: 0 -102%;
+           }
+
+.inline{
+    display:flex;
+    list-style:none;
+
+}
