@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Админка</title>
+    <link rel="stylesheet" href="main_login.css">
+</head>
+
+</html>
+<div class="main">
+    <input type="checkbox" id="chk" aria-hidden="true">
+
+    <div class="signup">
+        <label th:if="${param.error}" style="color: red">
+            Неверный логин или пароль.
+        </label>
+        <label th:if="${param.logout}" style="color: red">
+            <a>Вы уже авторизованы.
+        </label>
+        <form th:action="@{/login}" method="post">
+        <label for="chk" aria-hidden="true">Авторизация</label>
+            <input type="text" name="username" placeholder="Пароль"/>
+            <input type="password" name="password" placeholder="Пароль">
+            <input class="button" type="submit" value="Sign In"/>
+        </form>
+        <div style="visibility: hidden;">
+            <div th:if="${param.error}" style="color: red">
+                Invalid username and password.
+            </div>
+            <div th:if="${param.logout}" style="color: red">
+                <a>You have been logged out.
+            </div>
+            <form th:action="@{/login}" method="post" style="margin:50px 0;padding:0;text-align:center;">
+                <div style="margin:10px"><label> Логин : <input type="text" name="username"/> </label></div>
+                <div style="margin:10px"><label> Пароль : <input type="password" name="password"/> </label></div>
+                <div><input class="btn" style="margin:10px;background: LightBlue" type="submit" value="Sign In"/></div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+
+
+
+
+
+
+
