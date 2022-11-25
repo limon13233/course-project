@@ -7,6 +7,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -44,6 +45,13 @@ public class User {
     private String username;
     private String password;
     private Boolean active;
+    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    private Membership membership;
+    @ManyToMany
+    @JoinTable(name = "history",
+            joinColumns = @JoinColumn(name ="user_id"),
+            inverseJoinColumns = @JoinColumn(name = "issuebook_id"))
+    private List<IssueBook> issuebooks;
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
@@ -96,7 +104,7 @@ public class User {
 
     public User() { }
 
-    public User(String username, String password, Boolean active, Set<Role> roles, String surname, String name, String middleName, int number_passport, int serial_passport, Date birthday,String phone) {
+    public User(String username, String password, Boolean active, Set<Role> roles, String surname, String name, String middleName, int number_passport, int serial_passport, Date birthday,String phone,Membership membership) {
         this.username = username;
         this.password = password;
         this.active = active;
@@ -108,5 +116,14 @@ public class User {
         this.serial_passport =serial_passport;
         this.phone=phone;
         this.birthday = birthday;
+        this.membership = membership;
+    }
+
+    public Membership getMembership() {
+        return membership;
+    }
+
+    public void setMembership(Membership membership) {
+        this.membership = membership;
     }
 }
