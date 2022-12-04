@@ -1,0 +1,117 @@
+<html class="no-js" lang="" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>Админка</title>
+    <meta name="description" content="админка">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Стили -->
+    <!-- Приводим стили к общему виду с помощью https://github.com/necolas/normalize.css -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="main.css">
+    <!-- Font Awesome иконки -->
+    <script src="https://kit.fontawesome.com/4a23243fb41.js" crossorigin="anonymous"></script>
+    <!-- jQuery и скрипты -->
+    <script src="js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="js/main.js"></script>
+
+</head>
+<body>
+<!-- Главный контейнер -->
+<div class="container">
+
+    <!-- Заголовок -->
+    <header class="dashboard-header">
+        <h1 class="dashboard-header__logo">Панель Администратора</h1>
+    </header>
+    <nav class="sidebar-menu" th:insert="fragment :: LeftMenuFragment"></nav>
+    <!-- Левое меню -->
+
+    <!-- Главный контент -->
+    <main class="main-content">
+        <div class="grid-container">
+        <div class="post-1">
+            <div th:each="el: ${list_books}" style="margin: 10px;text-align:Left">
+                <h3 th:text="${el.getnamebooks()}"> </h3>
+                <p th:text="'Жанр:'+ ${el.getgenre()}"></p>
+                <p th:text="'Автор: ' + ${el.getauthor()}"></p>
+                <p th:text="'Год выпуска: ' + ${el.getyearrelese()}"></p>
+                <input type="button" class="bot2" value="Добасить в заказ" id="add-item" th:data-parameter1="${el.getnamebooks()}" th:onclick="addInputLine(this.getAttribute('data-parameter1'));"/>
+            </div>
+        </div>
+<form th:action="@{detail}" method="post">
+
+    <div class="post-2">
+    <p>Выберите поставщика</p>
+    <select style="margin: 10px" class="select-box"  name="provider1">
+        <div th:each="element : ${providers}">
+            <option th:text="${element.nameprovider}"></option>
+        </div>
+    </select>
+    </div>
+
+        <h2 style="text-align:Center" class="post-3">
+            Корзина
+        </h2>
+        <div class="post-4">
+                <div id="parentElement" >
+                    <div>
+                        <a style="margin:20px">Артикул</a>
+                        <a style="margin:20px">Название</a>
+                        <a style="margin:20px">Количество</a>
+                    </div>
+                </div>
+            <br>
+            <input class="bot3" type="submit" value="Оформить заказ"></input>
+        </div>
+
+    <div id="koll" class="koll" style="visibility:hidden">
+    <input type="number" name="productСount" min="0" value="1" style="text-align:center">
+    </div>
+</form>
+            </div>
+    </main>
+    <script>
+        var score = 0;
+        var nod;
+        function addInputLine(nab) {
+        score++;
+
+        try{
+
+            nod = koll.cloneNode(true);
+            nod.style.visibility='visible';
+        }
+        catch
+        {
+            koll[0].style.visibility='visible';
+            nod = koll[0].cloneNode(true);
+        }
+
+        var node = document.createElement('div');
+        var node1 = document.createElement('a');
+        var node2 = document.createElement('input');
+        var node3 = document.createElement('input');
+
+        node3.appendChild(nod);
+
+        node1.innerHTML += score;
+        node2.innerHTML += nab;
+        node2.setAttribute("value",nab);
+        node2.setAttribute("disabled","disabled");
+        node2.setAttribute("name","namesbooks");
+        node3.setAttribute("type","number");
+        node3.setAttribute("name","amount");
+        node2.setAttribute("style","margin:20px");
+        node3.setAttribute("style","margin:20px");
+        node.appendChild(node1);
+        node.appendChild(node2);
+        node.appendChild(node3);
+
+        document.getElementById("parentElement").appendChild(node);
+        }
+
+</script>
+</div>
+</body>
+</html>

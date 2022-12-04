@@ -2,6 +2,7 @@ package com.example.kursach.Models;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "copybook")
@@ -15,6 +16,7 @@ public class CopyBook {
     private Collection<LibraryFund> libraryfunds;
     @OneToMany(mappedBy = "copybook", fetch = FetchType.LAZY)
     private Collection<IssueBook> issuebooks;
+
 
     public CopyBook() {
     }

@@ -1,4 +1,4 @@
-<html class="no-js" lang="">
+<html class="no-js" lang="" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8">
@@ -27,34 +27,34 @@
                     <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
                     <label for="tab-1" class="tab-label">Сотрудник</label>
                     <div class="tab-content">
-                        <form th:object="${user}" method="post">
+                        <form action="/Addemployee" th:object="${user}" method="post">
                             <label>
+                                <a>Фамилия:</a>
+                                <input th:field="*{surname}" name="surname" type="text" placeholder="Фамилия" style="margin:10px" minlength="30"><br>
 
-                                <input th:field="*{surname}" name="surname" type="text" placeholder="Фамилия" style="margin:10px"><br>
-                                <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" style="color: red"></div><br>
-
+                                <a>Имя:</a>
                                 <input th:field="*{name}" name="name" type="text" placeholder="Имя" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></div><br>
-
+                                <a>Отчество:</a>
                                 <input th:field="*{middleName}" name="middleName" type="text" placeholder="Отчество" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}" style="color: red"></div><br>
-
-                                <input th:field="*{number_passport}" name="number_passport" type="text" placeholder="Серия/номер паспорта" style="margin:10px"><br>
+                                <a>Номер паспорта:</a>
+                                <input th:field="*{number_passport}" name="number_passport" type="text" min="1" max="100" placeholder="Серия/номер паспорта" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('number_passport')}" th:errors="*{number_passport}" style="color: red"></div><br>
-
-                                <input th:field="*{serial_passport}" name="serial_passport" type="text" placeholder="Серия/номер паспорта" style="margin:10px"><br>
+                                <a>Серия паспорта:</a>
+                                <input th:field="*{serial_passport}" name="serial_passport" type="text" min="1" max="100" placeholder="Серия/номер паспорта" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('serial_passport')}" th:errors="*{serial_passport}" style="color: red"></div><br>
-
+                                <a>Дата рождения:</a>
                                 <input th:field="*{birthday}" name="birthday" type="text" placeholder="гггг-мм-дд" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}" style="color: red"></div><br>
-
-                                <input th:field="*{phone}" name="phone" type="text" placeholder="гггг-мм-дд" style="margin:10px"><br>
+                                <a>Телефон:</a>
+                                <input th:field="*{phone}" name="phone" type="text" placeholder="+8(999)999-99-99" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red"></div><br>
-
-                                <input th:field="*{username}" name="username" type="text" placeholder="гггг-мм-дд" style="margin:10px"><br>
+                                <a>Логин:</a>
+                                <input th:field="*{username}" name="username" type="text" placeholder="логин" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></div><br>
-
-                                <input th:field="*{password}" name="password" type="password" placeholder="гггг-мм-дд" style="margin:10px"><br>
+                                <a>Пароль:</a>
+                                <input th:field="*{password}" name="password" type="password" placeholder="пароль" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></div><br>
 
                                 <input value="1" style="visibility:hidden" name="add"><br>
@@ -67,7 +67,7 @@
                     <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
                     <label for="tab-2" class="tab-label">Клиент</label>
                     <div class="tab-content">
-                        <form th:object="${user}" method="post">
+                        <form action="/Adduser" th:object="${user}" method="post">
                             <label>
 
                                 <input th:field="*{surname}" name="surname" type="text" placeholder="Фамилия" style="margin:10px"><br>
@@ -107,7 +107,7 @@
                     <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
                     <label for="tab-3" class="tab-label">Книга</label>
                     <div class="tab-content">
-                        <form th:object="${books}" method="post">
+                        <form action="/Addbooks" th:object="${books}" method="post">
                             <label>
 
                                 <input th:field="*{genre}" name="surname" type="text" placeholder="Фамилия" style="margin:10px"><br>
@@ -131,12 +131,43 @@
                 <div class="tab">
                     <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
                     <label for="tab-4" class="tab-label">Поставщик</label>
-                    <div class="tab-content">When I left Mr. Bates, I went down to my father: where, by the assistance of him and my uncle John, and some other relations, I got forty pounds, and a promise of thirty pounds a year to maintain me at Leyden: there I studied physic two years and seven months, knowing it would be useful in long voyages.</div>
+                    <div class="tab-content">
+                        <form action="/Addprovider" th:object="${provider}" method="post">
+                            <label>
+
+                                <input th:field="*{nameprovider}" name="nameprovider" type="text" placeholder="Наименование поставщика" style="margin:10px"><br>
+                                <div th:if="${#fields.hasErrors('nameprovider')}" th:errors="*{nameprovider}" style="color: red"></div><br>
+
+                                <input th:field="*{phone}" name="phone" type="text" placeholder="Телефон" style="margin:10px"><br>
+                                <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red"></div><br>
+
+                                <input th:field="*{address}" name="address" type="text" placeholder="Адрес" style="margin:10px"><br>
+                                <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red"></div><br>
+
+                                <input value="3" style="visibility:hidden" name="add"><br>
+                                <input class="btn" type="submit" value="Добавить поставщика" style="background:LightGreen; margin: 10px">
+                            </label>
+                        </form>
+                    </div>
                 </div>
                 <div class="tab">
                     <input type="radio" name="css-tabs" id="tab-5" class="tab-switch">
                     <label for="tab-5" class="tab-label">Абонимент</label>
-                    <div class="tab-content">When I left Mr. Bates, I went down to my father: where, by the assistance of him and my uncle John, and some other relations, I got forty pounds, and a promise of thirty pounds a year to maintain me at Leyden: there I studied physic two years and seven months, knowing it would be useful in long voyages.</div>
+                    <div class="tab-content">
+                        <form action="/Addmembership" th:object="${membership}" method="post">
+                            <label>
+
+                                <input th:field="*{period}" name="period" type="text" placeholder="Наименование поставщика" style="margin:10px"><br>
+                                <div th:if="${#fields.hasErrors('period')}" th:errors="*{period}" style="color: red"></div><br>
+
+                                <input th:field="*{price}" name="price" type="text" placeholder="Телефон" style="margin:10px"><br>
+                                <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red"></div><br>
+
+                                <input value="3" style="visibility:hidden" name="add"><br>
+                                <input class="btn" type="submit" value="Добавить абонимент" style="background:LightGreen; margin: 10px">
+                            </label>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

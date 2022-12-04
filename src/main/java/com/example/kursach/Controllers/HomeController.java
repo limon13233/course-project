@@ -1,11 +1,12 @@
 package com.example.kursach.Controllers;
 
 
-import com.example.kursach.Models.Books;
-import com.example.kursach.Models.Role;
-import com.example.kursach.Models.User;
-import com.example.kursach.Repositories.BooksRepositorie;
-import com.example.kursach.Repositories.UserRepositorie;
+import com.example.kursach.Models.*;
+import com.example.kursach.Repositories.*;
+import com.sun.istack.Nullable;
+import org.hibernate.mapping.Column;
+import org.hibernate.mapping.Table;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Collections;
-import java.util.List;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Controller
 public class HomeController {
@@ -27,6 +30,18 @@ public class HomeController {
 UserRepositorie userRepositorie;
     @Autowired
     BooksRepositorie booksRepositorie;
+    @Autowired
+    ProviderRepositorie providerRepositorie;
+    @Autowired
+    MembershipRepositorie membershipRepositorie;
+    @Autowired
+    CopyBooksRepositorie copyBooksRepositorie;
+    @Autowired
+    BooksOrderRepositorie booksOrderRepositorie;
+    @Autowired
+    OrderRepositorie orderRepositorie;
+    @Autowired
+    IssuebookRepositorie issuebookRepositorie;
     @GetMapping("/")
     public String index(Model model)
     {
@@ -49,45 +64,156 @@ UserRepositorie userRepositorie;
         return("redirect:/");
     }
     @GetMapping("/Add")
-    public String Add(User user,Books books)
+    public String Add(User user,Books books,Provider provider,Membership membership)
     {
         return ("Add");
     }
-    @PostMapping("/Add")
-    public String Add(
-            User user,
-            RedirectAttributes red,
-            @RequestParam String add)
+    @PostMapping("/Addbooks")
+    public String Addbooks(
+            @Valid Books books, BindingResult bindingResult,User user,Provider provider,Membership membership)
     {
-        red.addFlashAttribute("user",user);
-        return ("redirect:Add/"+add);
+        if (bindingResult.hasErrors())
+            return ("Add");
+        booksRepositorie.save(books);
+        CopyBook cp = new CopyBook();
+        cp.setBooks(books);
+        copyBooksRepositorie.save(cp);
+        return ("redirect:/Add");
     }
-    @GetMapping("Add/{id}")
-    public String EmployeeDelete(@PathVariable int id,  @Valid@ModelAttribute User user,
-                                 @Valid Books books,BindingResult bindingResult) {
-        switch (id) {
-            case (1):
-                if (bindingResult.hasErrors())
-                    return ("Add");
-                user.setActive(true);
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-                user.setRoles(Collections.singleton(Role.EMPLOYEE));
-                userRepositorie.save(user);
-                return ("redirect:/Add");
-            case (2):
-                if (bindingResult.hasErrors())
-                    return ("Add");
-                user.setActive(true);
-                user.setPassword(passwordEncoder.encode(user.getPassword()));
-                user.setRoles(Collections.singleton(Role.USER));
-                userRepositorie.save(user);
-                return ("redirect:/Add");
-            case (3):
-                if (bindingResult.hasErrors())
-                    return ("Add");
-                booksRepositorie.save(books);
-                return ("redirect:/Add");
-        };
-        return("Add");
+
+    @PostMapping("/Addemployee")
+    public String Addemployee(
+            @Valid User user,BindingResult bindingResult,Books books,Provider provider,Membership membership)
+    {
+        if (bindingResult.hasErrors()) {
+
+            return ("Add");
+        }
+        user.setActive(true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Collections.singleton(Role.EMPLOYEE));
+        userRepositorie.save(user);
+        return ("redirect:/Add");
+    }
+    @PostMapping("/Adduser")
+    public String Adduser(
+            @Valid User user, BindingResult bindingResult, Books books,Provider provider,Membership membership)
+    {
+        if (bindingResult.hasErrors())
+            return ("Add");
+        user.setActive(true);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Collections.singleton(Role.USER));
+        userRepositorie.save(user);
+        return ("redirect:/Add");
+    }
+    @PostMapping("/Addprovider")
+    public String Addprovider(
+            @Valid Provider provider, BindingResult bindingResult, Books books,User user,Membership membership)
+    {
+        if (bindingResult.hasErrors())
+            return ("Add");
+        providerRepositorie.save(provider);
+        return ("redirect:/Add");
+    }
+    @PostMapping("/Addmembership")
+    public String Addmembership(
+            @Valid Membership membership, BindingResult bindingResult, Books books, User user,Provider provider)
+    {
+        if (bindingResult.hasErrors())
+            return ("Add");
+        membership.setDateregistration(Calendar.getInstance().getTime());
+        membershipRepositorie.save(membership);
+        return ("redirect:/Add");
+    }
+
+
+    @GetMapping("/OrderCreate")
+    public String createOrder(Model model)
+    {
+        Iterable<Books> books= booksRepositorie.findAll();
+        Iterable<Provider> pr= providerRepositorie.findAll();
+        model.addAttribute("providers",pr);
+        model.addAttribute("list_books",books);
+        return ("OrderCreate");
+    }
+
+    @RequestMapping(value = "/detail", method = RequestMethod.POST)
+    public String crOrder(@RequestParam String provider1, @NotNull @RequestParam String[] namesbooks, @RequestParam int[] amount)
+    {
+
+        order norder = new order();
+        for (String name: namesbooks
+             ) {
+            BooksOrder cart = new BooksOrder();
+            cart.setBooks(booksRepositorie.findBynamebooks(name));
+            cart.setOrder(norder);
+            cart.setAmount(amount[Arrays.asList(namesbooks).indexOf(name)]);
+            booksOrderRepositorie.save(cart);
+        }
+
+
+        norder.setdateregistration(Calendar.getInstance().getTime());
+        norder.setProvider(providerRepositorie.findBynameprovider(provider1));
+        orderRepositorie.save(norder);
+        return("index");
+    }
+    @GetMapping("/AddBookUser")
+    public String AddBookUser(Model model)
+    {
+        Iterable<CopyBook> books= copyBooksRepositorie.findAll();
+        Iterable<User> users= userRepositorie.findAll();
+        model.addAttribute("user",users);
+        model.addAttribute("book",books);
+        return ("AddUserBook");
+    }
+    @PostMapping("/AddBookUser")
+    public String AddBookUserPost(@RequestParam(name = "book") String cb,@RequestParam(name = "user") String user)
+    {
+        Books b = booksRepositorie.findBynamebooks(cb);
+        CopyBook cb1= copyBooksRepositorie.findBybook_id(b.getId());
+        IssueBook ib = new IssueBook();
+        ib.setCopybook(cb1);
+        ib.setData(Calendar.getInstance().getTime());
+        issuebookRepositorie.save(ib);
+        User us = userRepositorie.findBysurname((user.split(" "))[0]);
+        List<IssueBook> of = us.getIssuebooks();
+        of.add(ib);
+        us.setIssuebooks(of);
+        userRepositorie.save(us);
+        return ("index");
+    }
+    @GetMapping("/AddMeembershipUser")
+    public String AddMembershipUser(Model model)
+    {
+        Iterable<Membership> ms= membershipRepositorie.findAll();
+        Iterable<User> users= userRepositorie.findAll();
+        model.addAttribute("user",users);
+        model.addAttribute("membership",ms);
+        return ("AddMeembershipUser");
+    }
+    @PostMapping("/AddMeembershipUser")
+    public String AddMembershipUser1(@RequestParam(name = "membership") String cb,@RequestParam(name = "user") String user)
+    {
+       User us = userRepositorie.findBysurname((user.split(" "))[0]);
+        Membership membership = membershipRepositorie.findByperiod(cb);
+        membership.getUsers().add(us);
+        us.setMembership(membership);
+        userRepositorie.save(us);
+        membershipRepositorie.save(membership);
+        return ("redirect:/AddMeembershipUser");
+    }
+    @GetMapping("/Delete")
+    public String Delete(User user,Books books,Provider provider,Membership membership)
+    {
+        return ("Add");
+    }
+
+
+    @PostMapping("/Dellemployee/{id}")
+    public String Dellemployee(@PathVariable long id)
+    {
+        userRepositorie.deleteById(id);
+        return ("redirect:/Delete");
     }
 }

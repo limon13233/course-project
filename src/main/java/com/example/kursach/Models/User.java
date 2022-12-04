@@ -102,6 +102,8 @@ public class User {
     public String getPhone(){return phone;}
     public void setPhone(String phone){this.phone=phone;}
 
+    public  String getFIO(){ return surname +" "+ name+ " "+middleName;}
+
     public User() { }
 
     public User(String username, String password, Boolean active, Set<Role> roles, String surname, String name, String middleName, int number_passport, int serial_passport, Date birthday,String phone,Membership membership) {
@@ -125,5 +127,13 @@ public class User {
 
     public void setMembership(Membership membership) {
         this.membership = membership;
+    }
+
+    public List<IssueBook> getIssuebooks() {
+        return issuebooks;
+    }
+
+    public void setIssuebooks(List<IssueBook> issuebooks) {
+        this.issuebooks = issuebooks;
     }
 }

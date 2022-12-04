@@ -1,0 +1,87 @@
+<html class="no-js" lang="" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>Админка</title>
+    <meta name="description" content="админка">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://kit.fontawesome.com/4a23243fb41.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<!-- Главный контейнер -->
+<div class="container">
+
+    <!-- Заголовок -->
+    <header class="dashboard-header">
+        <h1 class="dashboard-header__logo">Панель Администратора</h1>
+    </header>
+    <nav class="sidebar-menu" th:insert="fragment :: LeftMenuFragment"></nav>
+    <!-- Левое меню -->
+
+    <!-- Главный контент -->
+    <main class="main-content">
+        <div class="wrapper">
+            <div class="tabs">
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
+                    <label for="tab-1" class="tab-label">Сотрудник</label>
+                    <div class="tab-content">
+                        <ul class="inline">
+                            <form action="/Dellemployee" th:object="${user}" method="post">
+                            <li th:each="el: ${list_employee}" style="margin: 10px;text-align:Center">
+                                <h3 th:text="${el.getSurname()}"> </h3>
+                                <p th:text=" ${el.getName} + ' '     + ${el.getMiddleName()}"></p>
+                                <p th:text="'ID: ' + ${el.getId()}"></p>
+                                <input type="submit" th:href="/Dellemployee/${el.getId()}">
+                            </li>
+                            </form>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
+                    <label for="tab-2" class="tab-label">Клиент</label>
+                    <div class="tab-content">
+                        <form action="/Adduser" th:object="${user}" method="post">
+
+                        </form>
+                    </div>
+                </div>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
+                    <label for="tab-3" class="tab-label">Книга</label>
+                    <div class="tab-content">
+                        <form action="/Addbooks" th:object="${books}" method="post">
+
+                        </form>
+                    </div>
+                </div>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
+                    <label for="tab-4" class="tab-label">Поставщик</label>
+                    <div class="tab-content">
+                        <form action="/Addprovider" th:object="${provider}" method="post">
+
+                        </form>
+                    </div>
+                </div>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-5" class="tab-switch">
+                    <label for="tab-5" class="tab-label">Абонимент</label>
+                    <div class="tab-content">
+                        <form action="/Addmembership" th:object="${membership}" method="post">
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </main>
+
+
+</div>
+</body>
+</html>
