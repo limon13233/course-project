@@ -13,7 +13,7 @@ public class Books {
     private String namebooks;
     private String yearrelese;
     private String author;
-    @OneToMany(mappedBy = "books", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "books", fetch = FetchType.LAZY)
     private Collection<BooksOrder> booksorders;
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
     private Collection<CopyBook> copybook;

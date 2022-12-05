@@ -45,9 +45,9 @@ public class User {
     private String username;
     private String password;
     private Boolean active;
-    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, cascade = CascadeType.DETACH)
     private Membership membership;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.DETACH)
     @JoinTable(name = "history",
             joinColumns = @JoinColumn(name ="user_id"),
             inverseJoinColumns = @JoinColumn(name = "issuebook_id"))

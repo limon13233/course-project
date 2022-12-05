@@ -192,7 +192,27 @@ body {
 .bot3:focus{
                background-position: 0 -102%;
            }
-
+.bot4 {
+        margin:20px auto;
+    color: #FFFFFF;
+    display: block;
+    font:bold 16px arial;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    text-decoration: none;
+    width: 160px;
+        background:linear-gradient(to bottom, #B22222,#8B0000) repeat scroll 0 0 / 100% 200% rgba(0, 0, 0, 0);
+    transition: all 0.5s linear 0s;
+        border-bottom: 4px solid #ccc;
+        border-radius: 30px;
+}
+.bot4:hover {
+    background-position: 0 -102%;
+}
+.bot4:focus{
+               background-position: 0 -102%;
+           }
 .inline{
     display:flex;
     list-style:none;
@@ -481,8 +501,4 @@ body {
   .count .minus.min
   {
     background-color: #989797;
-  }
-  a{
-  margin-left:40px;
-  margin-right:40px;
   }

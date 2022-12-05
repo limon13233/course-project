@@ -1,0 +1,60 @@
+<html class="no-js" lang="" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>Админка</title>
+    <meta name="description" content="админка">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Стили -->
+    <!-- Приводим стили к общему виду с помощью https://github.com/necolas/normalize.css -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="main.css">
+    <!-- Font Awesome иконки -->
+    <script src="https://kit.fontawesome.com/4a23243fb41.js" crossorigin="anonymous"></script>
+    <!-- jQuery и скрипты -->
+    <script src="js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="js/main.js"></script>
+
+</head>
+<body>
+<!-- Главный контейнер -->
+<div class="container">
+
+    <!-- Заголовок -->
+    <header class="dashboard-header">
+        <h1 class="dashboard-header__logo">Панель Администратора</h1>
+    </header>
+    <nav class="sidebar-menu" th:insert="fragment :: LeftMenuFragment"></nav>
+    <!-- Левое меню -->
+
+    <!-- Главный контент -->
+    <main class="main-content">
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script type="text/javascript">
+window.onload = function () {
+var dataPoints = [];
+var chart = new CanvasJS.Chart("chartContainer",{
+	title:{
+		text:"Статистика взятых книг"
+	},
+	data: [{
+		type: "column",
+		dataPoints : dataPoints,
+	}]
+});
+$.getJSON("http://localhost:8080/api/user/", function(data) {
+	$.each(data, function(key, value){
+		dataPoints.push({label:(value.name) , y: parseInt(value.book)});
+	});
+	chart.render();
+});
+}
+</script>
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    </main>
+
+
+</div>
+</body>
+</html>

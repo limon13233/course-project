@@ -10,7 +10,7 @@ public class CopyBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, cascade = CascadeType.DETACH)
     private Books book;
     @OneToMany(mappedBy = "copybook", fetch = FetchType.LAZY)
     private Collection<LibraryFund> libraryfunds;

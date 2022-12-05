@@ -30,7 +30,7 @@
                         <form action="/Addemployee" th:object="${user}" method="post">
                             <label>
                                 <a>Фамилия:</a>
-                                <input th:field="*{surname}" name="surname" type="text" placeholder="Фамилия" style="margin:10px" minlength="30"><br>
+                                <input th:field="*{surname}" name="surname" type="text" placeholder="Фамилия" style="margin:10px" maxnlength="30"><br>
 
                                 <a>Имя:</a>
                                 <input th:field="*{name}" name="name" type="text" placeholder="Имя" style="margin:10px"><br>

@@ -11,9 +11,9 @@ public class IssueBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date data;
-    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, cascade = CascadeType.DETACH)
     private CopyBook copybook;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.DETACH)
     @JoinTable(name = "history",
             joinColumns = @JoinColumn(name ="issuebook_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))

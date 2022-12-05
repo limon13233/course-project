@@ -1,5 +1,7 @@
 package com.example.kursach.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
@@ -13,6 +15,7 @@ public class Membership {
     private String period;
     private String price;
     private Date dateregistration;
+    @JsonIgnore
     @OneToMany(mappedBy = "membership", fetch = FetchType.EAGER)
     private Collection<User> users;
 
@@ -57,12 +60,22 @@ public class Membership {
     public void setDateregistration(Date dateregistration) {
         this.dateregistration = dateregistration;
     }
-
+    @JsonIgnore
     public Collection<User> getUsers() {
         return users;
     }
-
+    @JsonIgnore
     public void setUsers(Collection<User> users) {
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\":" + this.id +
+                ", \"period\":\"" + this.period + '\"' +
+                ", \"price\":\"" + this.price + '\"' +
+                ", \"dateregistration\":" + this.dateregistration +
+                '}';
     }
 }

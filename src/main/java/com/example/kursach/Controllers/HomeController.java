@@ -4,11 +4,12 @@ package com.example.kursach.Controllers;
 import com.example.kursach.Models.*;
 import com.example.kursach.Repositories.*;
 import com.sun.istack.Nullable;
+import org.hibernate.MappingException;
 import org.hibernate.mapping.Column;
 import org.hibernate.mapping.Table;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +27,8 @@ import java.util.*;
 public class HomeController {
     @Autowired
     PasswordEncoder passwordEncoder;
-@Autowired
-UserRepositorie userRepositorie;
+    @Autowired
+    UserRepositorie userRepositorie;
     @Autowired
     BooksRepositorie booksRepositorie;
     @Autowired
@@ -42,6 +43,7 @@ UserRepositorie userRepositorie;
     OrderRepositorie orderRepositorie;
     @Autowired
     IssuebookRepositorie issuebookRepositorie;
+
     @GetMapping("/")
     public String index(Model model)
     {
@@ -139,7 +141,7 @@ UserRepositorie userRepositorie;
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
-    public String crOrder(@RequestParam String provider1, @NotNull @RequestParam String[] namesbooks, @RequestParam int[] amount)
+    public String crOrder(@RequestParam String provider1, @RequestParam String[] namesbooks, @RequestParam int[] amount)
     {
 
         order norder = new order();
@@ -176,12 +178,12 @@ UserRepositorie userRepositorie;
         ib.setCopybook(cb1);
         ib.setData(Calendar.getInstance().getTime());
         issuebookRepositorie.save(ib);
-        User us = userRepositorie.findBysurname((user.split(" "))[0]);
+        User us = userRepositorie.findByFIO(user.split(" ")[0],user.split(" ")[1],user.split(" ")[2]);
         List<IssueBook> of = us.getIssuebooks();
         of.add(ib);
         us.setIssuebooks(of);
         userRepositorie.save(us);
-        return ("index");
+        return ("redirect:/AddBookUser");
     }
     @GetMapping("/AddMeembershipUser")
     public String AddMembershipUser(Model model)
@@ -195,7 +197,7 @@ UserRepositorie userRepositorie;
     @PostMapping("/AddMeembershipUser")
     public String AddMembershipUser1(@RequestParam(name = "membership") String cb,@RequestParam(name = "user") String user)
     {
-       User us = userRepositorie.findBysurname((user.split(" "))[0]);
+       User us = userRepositorie.findByFIO(user.split(" ")[0],user.split(" ")[1],user.split(" ")[2]);
         Membership membership = membershipRepositorie.findByperiod(cb);
         membership.getUsers().add(us);
         us.setMembership(membership);
@@ -204,16 +206,87 @@ UserRepositorie userRepositorie;
         return ("redirect:/AddMeembershipUser");
     }
     @GetMapping("/Delete")
-    public String Delete(User user,Books books,Provider provider,Membership membership)
+    public String Delete(Model model, User user,Books books,Provider provider,Membership membership)
     {
-        return ("Add");
+        Iterable<User> users = userRepositorie.findAll();
+        Iterable<Membership> ms = membershipRepositorie.findAll();
+        Iterable<Provider> pr = providerRepositorie.findAll();
+        ArrayList<User> employee = new ArrayList<User>();
+        ArrayList<User> client = new ArrayList<User>();
+        Iterable<Books> book = booksRepositorie.findAll();
+
+        for (User us:users) {
+            if(us.getRoles().contains(Role.EMPLOYEE))
+            {
+                employee.add(us);
+            }
+            else
+            {
+                client.add(us);
+            }
+        }
+
+        model.addAttribute("list_employee", employee);
+        model.addAttribute("list_client", client);
+        model.addAttribute("list_book", book);
+        model.addAttribute("list_membership", ms);
+        model.addAttribute("list_provider", pr);
+
+        return ("Delete");
     }
 
 
-    @PostMapping("/Dellemployee/{id}")
+    @GetMapping("/Dellemployee/{id}")
     public String Dellemployee(@PathVariable long id)
     {
         userRepositorie.deleteById(id);
         return ("redirect:/Delete");
     }
+
+    @GetMapping("/Dellbook/{id}")
+    public String Dellbook(@PathVariable long id)
+    {
+        CopyBook cp= copyBooksRepositorie.findBybook_id(id);
+        issuebookRepositorie.deleteCBin(cp.getId());
+        copyBooksRepositorie.deleteById(cp.getId());
+        booksRepositorie.deleteById(id);
+
+        return ("redirect:/Delete");
+    }
+    @GetMapping("/Dellmembership/{id}")
+    public String Dellmembership(@PathVariable long id)
+    {
+        membershipRepositorie.deleteById(id);
+
+        return ("redirect:/Delete");
+    }
+    @GetMapping("/Dellprovider/{id}")
+    public String Dellprovider(@PathVariable long id)
+    {
+        providerRepositorie.deleteById(id);
+
+        return ("redirect:/Delete");
+    }
+    @GetMapping("/Statistic")
+    public String Statistic(Model model)
+    {
+        return ("Statistic");
+    }
+    @GetMapping("/api/user/")
+    public ResponseEntity<ArrayList<ForStatistic>> userallapi() {
+
+        ForStatistic fs = new ForStatistic();
+        fs.setBook(4);
+        fs.setName("Гари потер");
+        ForStatistic fs1 = new ForStatistic();
+        fs1.setBook(40);
+        fs1.setName("Гари");
+        ForStatistic fs2 = new ForStatistic();
+        fs2.setBook(14);
+        fs2.setName("потер");
+        ArrayList<ForStatistic> a = new ArrayList<>();
+        a.add(fs);
+        a.add(fs1);
+        a.add(fs2);
+        return ResponseEntity.ok().body(a);}
 }

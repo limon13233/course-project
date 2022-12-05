@@ -9,7 +9,7 @@ public class LibraryFund {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int amount;
-    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @ManyToOne(optional = true, cascade = CascadeType.REMOVE)
     private CopyBook copybook;
 
     public LibraryFund() {
