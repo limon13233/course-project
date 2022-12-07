@@ -10,14 +10,14 @@ public class LibraryFund {
     private Long id;
     private int amount;
     @ManyToOne(optional = true, cascade = CascadeType.REMOVE)
-    private CopyBook copybook;
+    private Books books1;
 
     public LibraryFund() {
     }
 
-    public LibraryFund(int amount, CopyBook copybook) {
+    public LibraryFund(int amount, Books copybook) {
         this.amount = amount;
-        this.copybook = copybook;
+        this.books1 = copybook;
     }
 
     public Long getId() {
@@ -36,11 +36,11 @@ public class LibraryFund {
         this.amount = amount;
     }
 
-    public CopyBook getCopybook() {
-        return copybook;
+    public Books getCopybook() {
+        return books1;
     }
 
-    public void setCopybook(CopyBook copybook) {
-        this.copybook = copybook;
+    public void setCopybook(Books copybook) {
+        this.books1 = copybook;
     }
 }

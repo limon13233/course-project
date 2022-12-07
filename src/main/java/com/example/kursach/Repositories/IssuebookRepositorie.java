@@ -1,7 +1,6 @@
 package com.example.kursach.Repositories;
 
 import com.example.kursach.Models.BooksOrder;
-import com.example.kursach.Models.CopyBook;
 import com.example.kursach.Models.IssueBook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IssuebookRepositorie extends CrudRepository<IssueBook,Long> {
     @Modifying
     @Transactional
-    @Query("DELETE FROM IssueBook WHERE copybook_id =:title")
+    @Query("DELETE FROM IssueBook WHERE book_id =:title")
     public void deleteCBin(@Param("title") long id);
-}
+    long countBybooks2_id(long id);
+    }
+

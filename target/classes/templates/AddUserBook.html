@@ -39,7 +39,7 @@
         <p>Выберите книгу</p>
         <select style="margin: 10px" class="select-box"  name="book">
             <div th:each="el : ${book}">
-                <option th:text="${el.getBooks().getnamebooks()}"></option>
+                <option th:text="${el.getnamebooks()}"></option>
             </div>
         </select>
         <input type="submit" value="Выдать книгу" class="bot3">

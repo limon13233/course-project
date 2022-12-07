@@ -34,7 +34,7 @@
                 <ul class="inline">
                     <li th:each="el: ${list_employee}" style="margin: 10px;text-align:Center">
                         <h3 th:text="${el.getSurname()}"> </h3>
-                        <p th:text=" ${el.getName} + ' '     + ${el.getMiddleName()}"></p>
+                        <p th:text=" ${el.getName()} + ' '     + ${el.getMiddleName()}"></p>
                         <p th:text="'ID: ' + ${el.getId()}"></p>
                         <a th:href="'#openModal'+${el.getId()}" class="bot2">Изменить роль</a>
                         <form method="post">

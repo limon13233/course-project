@@ -1,0 +1,108 @@
+<html class="no-js" lang="" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>Админка</title>
+    <meta name="description" content="админка">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Стили -->
+    <!-- Приводим стили к общему виду с помощью https://github.com/necolas/normalize.css -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="main.css">
+    <!-- Font Awesome иконки -->
+    <script src="https://kit.fontawesome.com/4a23243fb41.js" crossorigin="anonymous"></script>
+    <!-- jQuery и скрипты -->
+    <script src="js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="js/main.js"></script>
+
+</head>
+<body>
+<!-- Главный контейнер -->
+<div class="container">
+
+    <!-- Заголовок -->
+    <header class="dashboard-header">
+        <h1 class="dashboard-header__logo">Панель Администратора</h1>
+    </header>
+    <nav class="sidebar-menu" th:insert="fragment :: LeftMenuFragment"></nav>
+    <!-- Левое меню -->
+
+    <!-- Главный контент -->
+    <main class="main-content">
+        <h2 style="text-align:center">Заказы в процесе</h2>
+        <ul class="inline">
+            <li th:each="el: ${list_ncorders}" style="margin: 10px;text-align:Center">
+                <form method="post">
+                <h3 th:text="${el.getId()}"> </h3>
+                    <input name="id" th:value="${el.getId()}" style="visibility:hidden">
+                <p th:text=" ${el.getdateregistration()}"></p>
+                <p th:text="${el.getProvider().getNameprovider()}"></p>
+                <a th:href="'#openModal'+${el.getId()}" class="bot2">Подробнее</a>
+                <div th:id="'openModal'+${el.getId()}" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Изменение роли</h3>
+                                <a th:href="'#close'+${el.getId()}" title="Close" class="close">×</a>
+                            </div>
+                            <div class="modal-body">
+                                <label>
+                                    <h3 th:text="${el.getId()}"> </h3>
+                                    <p th:text=" ${el.getdateregistration()}"></p>
+                                    <p th:text="${el.getProvider().getNameprovider()}"></p>
+                                    <ul >
+                                        <li th:each="elem : ${el.getBooksorders()}">
+                                        <p th:text="${elem.getBooks().getnamebooks()}"></p>
+                                        <p th:text="'Колличество: '+${elem.getAmount()}"></p>
+                                        </li>
+                                    </ul>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="bot3">Закрыть заказ</button>
+                </form>
+            </li>
+
+        </ul>
+        <h2 style="text-align:center">Выполненые заказы</h2>
+        <ul class="inline">
+            <li th:each="el: ${list_corders}" style="margin: 10px;text-align:Center">
+                <h3 th:text="${el.getId()}"> </h3>
+                <p th:text=" ${el.getdateregistration()}"></p>
+                <p th:text="${el.getProvider().getNameprovider()}"></p>
+                <a th:href="'#openModal'+${el.getId()}" class="bot2">Подробнее</a>
+                <div th:id="'openModal'+${el.getId()}" class="modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Изменение роли</h3>
+                                <a th:href="'#close'+${el.getId()}" title="Close" class="close">×</a>
+                            </div>
+                            <div class="modal-body">
+                                <label>
+                                    <h3 th:text="${el.getId()}"> </h3>
+                                    <p th:text=" ${el.getdateregistration()}"></p>
+                                    <p th:text="${el.getProvider().getNameprovider()}"></p>
+                                    <ul >
+                                        <li th:each="elem : ${el.getBooksorders()}">
+                                            <p th:text="${elem.getBooks().getnamebooks()}"></p>
+                                            <p th:text="'Колличество: '+${elem.getAmount()}"></p>
+                                        </li>
+                                    </ul>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    </main>
+
+
+</div>
+</body>
+</html>

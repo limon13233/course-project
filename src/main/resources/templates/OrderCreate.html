@@ -31,6 +31,7 @@
     <main class="main-content">
         <div class="grid-container">
         <div class="post-1">
+            <h22 style="text-align:center">Книги:</h22>
             <div th:each="el: ${list_books}" style="margin: 10px;text-align:Left">
                 <h3 th:text="${el.getnamebooks()}"> </h3>
                 <p th:text="'Жанр:'+ ${el.getgenre()}"></p>
@@ -98,9 +99,12 @@
         node1.innerHTML += score;
         node2.innerHTML += nab;
         node2.setAttribute("value",nab);
-        node2.setAttribute("disabled","disabled");
+        node2.setAttribute("readonly","readonly");
+        node2.setAttribute("type","text");
         node2.setAttribute("name","namesbooks");
         node3.setAttribute("type","number");
+        node3.setAttribute("value","1");
+        node3.setAttribute("min","1");
         node3.setAttribute("name","amount");
         node2.setAttribute("style","margin:20px");
         node3.setAttribute("style","margin:20px");

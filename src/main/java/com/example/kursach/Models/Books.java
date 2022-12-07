@@ -15,8 +15,10 @@ public class Books {
     private String author;
     @OneToMany(mappedBy = "books", fetch = FetchType.LAZY)
     private Collection<BooksOrder> booksorders;
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
-    private Collection<CopyBook> copybook;
+    @OneToMany(mappedBy = "books1", fetch = FetchType.LAZY)
+    private Collection<LibraryFund> libraryFunds;
+    @OneToMany(mappedBy = "books2", fetch = FetchType.EAGER)
+    private Collection<IssueBook> issueBooks;
 
 
     public Long getId(){return id;}
@@ -42,13 +44,22 @@ public class Books {
         this.booksorders = booksorders;
     }
 
-    public Collection<CopyBook> getCopybook() {
-        return copybook;
+    public Collection<LibraryFund> getLibraryFunds() {
+        return this.libraryFunds;
     }
 
-    public void setCopybook(Collection<CopyBook> copybook) {
-        this.copybook = copybook;
+    public void setLibraryFunds(Collection<LibraryFund> copybook) {
+        this.libraryFunds = copybook;
     }
+
+    public Collection<IssueBook> getIssueBooks() {
+        return this.issueBooks;
+    }
+
+    public void setIssueBooks(Collection<IssueBook> copybook) {
+        this.issueBooks = copybook;
+    }
+
     public Books() { }
 
     public Books(String genre,String namebooks,String yearrelese, String author) {

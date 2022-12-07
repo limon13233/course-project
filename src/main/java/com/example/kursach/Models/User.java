@@ -47,10 +47,11 @@ public class User {
     private Boolean active;
     @ManyToOne(optional = true, cascade = CascadeType.DETACH)
     private Membership membership;
-    @ManyToMany(cascade = CascadeType.DETACH)
-    @JoinTable(name = "history",
-            joinColumns = @JoinColumn(name ="user_id"),
-            inverseJoinColumns = @JoinColumn(name = "issuebook_id"))
+//    @ManyToMany(cascade = CascadeType.DETACH)
+//    @JoinTable(name = "history",
+//            joinColumns = @JoinColumn(name ="user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "issuebook_id"))
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<IssueBook> issuebooks;
 
     public String getUsername() { return username; }

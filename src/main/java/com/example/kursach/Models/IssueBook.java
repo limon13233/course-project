@@ -2,7 +2,6 @@ package com.example.kursach.Models;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "issuebook")
@@ -11,17 +10,23 @@ public class IssueBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date data;
+    private boolean status;
+    
     @ManyToOne(optional = true, cascade = CascadeType.DETACH)
-    private CopyBook copybook;
-    @ManyToMany(cascade = CascadeType.DETACH)
-    @JoinTable(name = "history",
-            joinColumns = @JoinColumn(name ="issuebook_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> users;
+    private Books books2;
+    @ManyToOne(optional = true, cascade = CascadeType.DETACH)
+    private User user;
+//    @ManyToMany(cascade = CascadeType.DETACH)
+//    @JoinTable(name = "history",
+//            joinColumns = @JoinColumn(name ="issuebook_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id"))
+//    private List<User> users;
 
-    public IssueBook(Date data, CopyBook copybook) {
+    public IssueBook(Date data, Books books,User user,boolean status) {
         this.data = data;
-        this.copybook = copybook;
+        this.books2 = books;
+        this.user = user;
+        this.status = status;
     }
 
     public IssueBook() {
@@ -43,11 +48,27 @@ public class IssueBook {
         this.data = data;
     }
 
-    public CopyBook getCopybook() {
-        return copybook;
+    public Books getBooks2() {
+        return books2;
     }
 
-    public void setCopybook(CopyBook copybook) {
-        this.copybook = copybook;
+    public void setBooks2(Books books2) {
+        this.books2 = books2;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

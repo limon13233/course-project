@@ -13,6 +13,7 @@ public class order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date dateregistration;
+    private boolean status;
     @ManyToOne(optional = true, cascade = CascadeType.ALL)
     private Provider provider;
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
@@ -30,7 +31,24 @@ public class order {
 
     public order() { }
 
-    public order(Date dateregistration) {
+    public order(Date dateregistration,boolean status) {
         this.dateregistration = dateregistration;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public Collection<BooksOrder> getBooksorders() {
+        return booksorders;
+    }
+
+    public void setBooksorders(Collection<BooksOrder> booksorders) {
+        this.booksorders = booksorders;
     }
 }

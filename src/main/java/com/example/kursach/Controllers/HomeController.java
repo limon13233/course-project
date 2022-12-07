@@ -3,24 +3,16 @@ package com.example.kursach.Controllers;
 
 import com.example.kursach.Models.*;
 import com.example.kursach.Repositories.*;
-import com.sun.istack.Nullable;
-import org.hibernate.MappingException;
-import org.hibernate.mapping.Column;
-import org.hibernate.mapping.Table;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -36,13 +28,13 @@ public class HomeController {
     @Autowired
     MembershipRepositorie membershipRepositorie;
     @Autowired
-    CopyBooksRepositorie copyBooksRepositorie;
-    @Autowired
     BooksOrderRepositorie booksOrderRepositorie;
     @Autowired
     OrderRepositorie orderRepositorie;
     @Autowired
     IssuebookRepositorie issuebookRepositorie;
+    @Autowired
+    LibraryfundsRepositorie libraryfundsRepositorie;
 
     @GetMapping("/")
     public String index(Model model)
@@ -77,9 +69,10 @@ public class HomeController {
         if (bindingResult.hasErrors())
             return ("Add");
         booksRepositorie.save(books);
-        CopyBook cp = new CopyBook();
-        cp.setBooks(books);
-        copyBooksRepositorie.save(cp);
+        LibraryFund libraryFund = new LibraryFund();
+        libraryFund.setAmount(0);
+        libraryFund.setCopybook(books);
+        libraryfundsRepositorie.save(libraryFund);
         return ("redirect:/Add");
     }
 
@@ -157,13 +150,14 @@ public class HomeController {
 
         norder.setdateregistration(Calendar.getInstance().getTime());
         norder.setProvider(providerRepositorie.findBynameprovider(provider1));
+        norder.setStatus(false);
         orderRepositorie.save(norder);
-        return("index");
+        return("redirect:/");
     }
     @GetMapping("/AddBookUser")
     public String AddBookUser(Model model)
     {
-        Iterable<CopyBook> books= copyBooksRepositorie.findAll();
+        Iterable<Books> books= booksRepositorie.findAll();
         Iterable<User> users= userRepositorie.findAll();
         model.addAttribute("user",users);
         model.addAttribute("book",books);
@@ -173,15 +167,16 @@ public class HomeController {
     public String AddBookUserPost(@RequestParam(name = "book") String cb,@RequestParam(name = "user") String user)
     {
         Books b = booksRepositorie.findBynamebooks(cb);
-        CopyBook cb1= copyBooksRepositorie.findBybook_id(b.getId());
         IssueBook ib = new IssueBook();
-        ib.setCopybook(cb1);
+        ib.setBooks2(b);
         ib.setData(Calendar.getInstance().getTime());
-        issuebookRepositorie.save(ib);
+        ib.setStatus(false);
         User us = userRepositorie.findByFIO(user.split(" ")[0],user.split(" ")[1],user.split(" ")[2]);
         List<IssueBook> of = us.getIssuebooks();
         of.add(ib);
         us.setIssuebooks(of);
+        ib.setUser(us);
+        issuebookRepositorie.save(ib);
         userRepositorie.save(us);
         return ("redirect:/AddBookUser");
     }
@@ -246,9 +241,7 @@ public class HomeController {
     @GetMapping("/Dellbook/{id}")
     public String Dellbook(@PathVariable long id)
     {
-        CopyBook cp= copyBooksRepositorie.findBybook_id(id);
-        issuebookRepositorie.deleteCBin(cp.getId());
-        copyBooksRepositorie.deleteById(cp.getId());
+        issuebookRepositorie.deleteCBin(id);
         booksRepositorie.deleteById(id);
 
         return ("redirect:/Delete");
@@ -275,18 +268,84 @@ public class HomeController {
     @GetMapping("/api/user/")
     public ResponseEntity<ArrayList<ForStatistic>> userallapi() {
 
-        ForStatistic fs = new ForStatistic();
-        fs.setBook(4);
-        fs.setName("Гари потер");
-        ForStatistic fs1 = new ForStatistic();
-        fs1.setBook(40);
-        fs1.setName("Гари");
-        ForStatistic fs2 = new ForStatistic();
-        fs2.setBook(14);
-        fs2.setName("потер");
         ArrayList<ForStatistic> a = new ArrayList<>();
-        a.add(fs);
-        a.add(fs1);
-        a.add(fs2);
-        return ResponseEntity.ok().body(a);}
+        Iterable<Books> cb=booksRepositorie.findAll();
+
+        for (Books cop:cb
+             ) {
+            ForStatistic fs = new ForStatistic();
+            fs.setBook(issuebookRepositorie.countBybooks2_id(cop.getId()));
+            fs.setName(cop.getnamebooks());
+            a.add(fs);
+        }
+        return ResponseEntity.ok().body(a);
+    }
+    @PostMapping("/BackupExport")
+    public String backup()
+            throws IOException, InterruptedException {
+        String command = String.format("mysqldump -u%s --password=%s --add-drop-table --column-statistics=0 --databases %s -r %s",
+                "root", "", "kursach", "D:\\OSPanel\\bec.sql");
+        Process process = Runtime.getRuntime().exec(command);
+        int processComplete = process.waitFor();
+        if(processComplete==0)
+        {
+        return("redirect:/");}
+        else
+        { return("Static");
+        }
+    }
+    @PostMapping("/BackupImport")
+    public String backupImport()
+            throws IOException, InterruptedException {
+        String[] command = new String[]{
+                "mysql",
+                "-u" + "root",
+                "--password=" + "",
+                "-e",
+                " source " + "D:\\OSPanel\\bec.sql",
+                "kursach"
+        };
+        Process runtimeProcess = Runtime.getRuntime().exec(command);
+        int processComplete = runtimeProcess.waitFor();
+        if(processComplete==0)
+        {
+            return("redirect:/");}
+        else
+        {
+            return("Static");
+        }
+    }
+    @GetMapping("/ViewOrder")
+    public String ViewOrder(Model model)
+    {
+        Iterable<order> orders = orderRepositorie.findAll();
+        ArrayList<order> complitedorders = new ArrayList<order>();
+        ArrayList<order> notcomlitedorders = new ArrayList<order>();
+        for (order o:orders) {
+            if(o.isStatus())
+            {
+                complitedorders.add(o);
+            }
+            else
+            {
+                notcomlitedorders.add(o);
+            }
+        }
+        model.addAttribute("list_corders", complitedorders);
+        model.addAttribute("list_ncorders", notcomlitedorders);
+        return("ViewOrders");
+    }
+    @PostMapping("/ViewOrder")
+    public String ViewOrder1(@RequestParam long id)
+    {
+        order o = orderRepositorie.findById(id).orElseThrow();
+        o.setStatus(true);
+        orderRepositorie.save(o);
+        for (BooksOrder bo:o.getBooksorders()
+             ) {
+            libraryfundsRepositorie.save(libraryfundsRepositorie.findBybooks1_id(bo.getBooks().getId()));
+        }
+
+        return("redirect:/ViewOrder");
+    }
 }

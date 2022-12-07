@@ -7,7 +7,7 @@ import java.util.Collection;
 public class ForStatistic {
 
 
-    private int book;
+    private long book;
     private String name;
 
 
@@ -19,11 +19,11 @@ public class ForStatistic {
         this.name = name;
     }
 
-    public int getBook() {
+    public long getBook() {
         return book;
     }
 
-    public void setBook(int book) {
+    public void setBook(long book) {
         this.book = book;
     }
 
