@@ -12,6 +12,7 @@ public interface UserRepositorie extends CrudRepository<User,Long> {
     @Transactional
     @Query("SELECT u from User u WHERE u.surname =:su AND u.name=:na AND u.middleName=:mn")
     public User findByFIO(@Param("su") String surname,@Param("na") String name,@Param("mn") String midlename);
+    public User findByusername(String username);
 
 //    @Transactional
 //    @Query("SELECT count(*) FROM history WHERE issuebook_id =:title")

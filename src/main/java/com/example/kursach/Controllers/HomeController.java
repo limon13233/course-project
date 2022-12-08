@@ -5,6 +5,8 @@ import com.example.kursach.Models.*;
 import com.example.kursach.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -347,5 +349,25 @@ public class HomeController {
         }
 
         return("redirect:/ViewOrder");
+    }
+    @GetMapping("/profile")
+    public String profile(Model model)
+    {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User employee = userRepositorie.findByusername(auth.getName());
+        model.addAttribute("user_p",employee);
+        ArrayList<IssueBook> issueBookArrayList = new ArrayList<>();
+        for (IssueBook is:employee.getIssuebooks()
+             ) {
+            if(!is.isStatus())
+            {
+                issueBookArrayList.add(is);
+            }
+
+        }
+        model.addAttribute("list_issue",issueBookArrayList);
+        model.addAttribute("list_book",booksRepositorie.findAll());
+
+        return("ClientPage");
     }
 }

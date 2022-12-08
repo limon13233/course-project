@@ -1,0 +1,62 @@
+<html class="no-js" lang="" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>Админка</title>
+    <meta name="description" content="админка">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Стили -->
+    <!-- Приводим стили к общему виду с помощью https://github.com/necolas/normalize.css -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="main.css">
+    <!-- Font Awesome иконки -->
+    <script src="https://kit.fontawesome.com/4a23243fb41.js" crossorigin="anonymous"></script>
+    <!-- jQuery и скрипты -->
+    <script src="js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="js/main.js"></script>
+
+</head>
+<body>
+<!-- Главный контейнер -->
+
+    <!-- Заголовок -->
+    <header class="dashboard-header">
+        <h1 class="dashboard-header__logo">Окно пользователя</h1>
+    </header>
+    <!-- Левое меню -->
+
+    <!-- Главный контент -->
+
+        <div class="grid-container">
+            <div th:each="el: ${user_p}" class="post-1">
+                <form method="post">
+                <h3>ФИО:</h3>
+                <p th:text="${el.getSurname()} + ' '+${el.getName()} + ' '+${el.getMiddleName()}"></p>
+                <input type="submit" class="bot2" value="Изменить данные">
+                </form>
+            </div>
+
+            <div class="post-2">
+                <h3>Список не сданных книг:</h3>
+                <ul>
+                    <li th:each="el: ${list_issue}" style="margin: 10px;text-align:Center">
+                        <h3 th:text="${el.getBooks2().getnamebooks()}"></h3>
+                        <p th:text="'Дата выдачи: '+ ${el.getData()}"></p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="post-3">
+                <h3>Каталог:</h3>
+                <ul class="inline">
+                    <li th:each="el: ${list_book}"  style="margin: 10px;text-align:Center">
+                        <h3 th:text="${el.getnamebooks()}"></h3>
+                        <p th:text="'Автор: '+ ${el.getauthor()}"></p>
+                    </li>
+                </ul>
+            </div>
+    </div>
+
+
+</body>
+</html>

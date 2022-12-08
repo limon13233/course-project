@@ -31,7 +31,7 @@
     <main class="main-content">
         <div class="grid-container">
         <div class="post-1">
-            <h22 style="text-align:center">Книги:</h22>
+            <h2 style="text-align:center">Книги:</h2>
             <div th:each="el: ${list_books}" style="margin: 10px;text-align:Left">
                 <h3 th:text="${el.getnamebooks()}"> </h3>
                 <p th:text="'Жанр:'+ ${el.getgenre()}"></p>

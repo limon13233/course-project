@@ -163,7 +163,7 @@ body {
         background:linear-gradient(to bottom, #209DCA, #0F84AF) repeat scroll 0 0 / 100% 200% rgba(0, 0, 0, 0);
     transition: all 0.5s linear 0s;
         border-bottom: 4px solid #ccc;
-        border-radius: 30px;
+        border-radius: 10px;
 }
 .bot2:hover {
     background-position: 0 -102%;
@@ -184,7 +184,7 @@ body {
         background:linear-gradient(to bottom, #7CFC00, #32CD32) repeat scroll 0 0 / 100% 200% rgba(0, 0, 0, 0);
     transition: all 0.5s linear 0s;
         border-bottom: 4px solid #ccc;
-        border-radius: 30px;
+        border-radius: 10px;
 }
 .bot3:hover {
     background-position: 0 -102%;
@@ -205,7 +205,7 @@ body {
         background:linear-gradient(to bottom, #B22222,#8B0000) repeat scroll 0 0 / 100% 200% rgba(0, 0, 0, 0);
     transition: all 0.5s linear 0s;
         border-bottom: 4px solid #ccc;
-        border-radius: 30px;
+        border-radius: 10px;
 }
 .bot4:hover {
     background-position: 0 -102%;
