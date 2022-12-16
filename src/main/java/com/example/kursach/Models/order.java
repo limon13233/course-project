@@ -1,7 +1,5 @@
 package com.example.kursach.Models;
 
-import com.mysql.cj.conf.PropertyDefinitions;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;

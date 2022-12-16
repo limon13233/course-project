@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:text-align="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Админка</title>
+    <link rel="stylesheet" href="main_login.css">
+</head>
+
+</html>
+<div class="main" >
+    <div style="padding: 5px; margin-left: 5px">
+        <div th:if="${error}">
+            Такой пользователь уже существует.
+        </div>
+
+        <p th:text="${error}"></p>
+
+        <form action="/registration" method="post">
+            <label>Регистрация</label>
+            <a>Фамилия:</a>
+            <input name="surname" type="text" placeholder="Фамилия" style="margin:10px" ><br>
+            <a>Имя:</a>
+            <input name="name" type="text" placeholder="Имя" style="margin:10px" ><br>
+            <a>Отчество:</a>
+
+            <input name="middleName" type="text" placeholder="Отчество" style="margin:10px"><br>
+            <a>Серия паспорта:</a>
+
+            <input name="serial_passport" type="number" maxlength="4" placeholder="Серия паспорта" style="margin:10px"><br>
+            <a>Номер паспорта:</a>
+            <input name="number_passport" type="number" maxlength="6" placeholder="Номер паспорта" style="margin:10px"><br>
+            <a>Дата рождения:</a>
+
+            <input name="birthday" type="date" placeholder="гггг-мм-дд" style="margin:10px"><br>
+            <a>Телефон:</a>
+            <input name="phone" type="tel" placeholder="Телефон" style="margin:10px"><br>
+            <a>Логин:</a>
+            <input type="text" placeholder="Логин" name="username" style="margin:10px"/><br>
+            <a>Пароль:</a>
+            <input type="password" placeholder="Пароль" name="password" style="margin:10px"/><br>
+
+            <div><button class="button"  style="margin:center">Зарегистрироваться</button></div>
+        </form>
+        <a type="button" href="/login" style="text-align:center;top:50%" class="button">Авторизация</a>
+    </div>
+</div>
+</body>
+
+
+
+
+
+
+
+

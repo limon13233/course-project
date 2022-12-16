@@ -1,0 +1,181 @@
+<html class="no-js" lang="" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>Админка</title>
+    <meta name="description" content="админка">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"  type="text/css" href="main.css">
+    <script src="https://kit.fontawesome.com/4a23243fb41.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- Главный контейнер -->
+<div class="container">
+
+    <!-- Заголовок -->
+    <header class="dashboard-header">
+        <h1 class="dashboard-header__logo">Панель Сотрудника</h1>
+    </header>
+    <nav class="sidebar-menu" th:insert="fragment :: LeftMenuFragment"></nav>
+    <!-- Левое меню -->
+
+    <!-- Главный контент -->
+    <main class="main-content">
+        <div class="wrapper">
+            <div class="tabs">
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
+                    <label for="tab-1" class="tab-label">Сотрудник</label>
+                    <div class="tab-content">
+                        <ul class="content-line inline">
+
+                            <li th:each="el: ${list_employee}" style="margin: 10px;text-align:Center">
+                                <h3 th:text="${el.getSurname()}"> </h3>
+                                <p th:text=" ${el.getName} + ' '     + ${el.getMiddleName()}"></p>
+                                <p th:text="'ID: ' + ${el.getId()}"></p>
+                                <a th:href="'#openModale'+${el.getId()}" class="bot2">Изменить данные</a>
+                                <form action="/edit_user" th:object="${user}" method="post">
+                                    <div th:id="'openModale'+${el.getId()}" class="modal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title">Изменение данные</h3>
+
+
+                                                    <a th:href="'#closee'+${el.getId()}" title="Close" class="close">×</a>
+                                                </div>
+                                                <div class="modal-body">
+                                                        <input name="id" type="hidden" th:value="${el.getId()}">
+                                                        <a>Фамилия:</a>
+                                                        <input name="surname" th:value="${el.getSurname()}"><br/>
+                                                        <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" style="color: red"></div><br>
+                                                        <a>Имя:</a>
+                                                        <input name="name" th:value="${el.getName}"><br/>
+                                                        <a>Отчество:</a>
+                                                        <input name="middleName" th:value="${el.getMiddleName()}"><br/>
+                                                        <a>Серия паспорта:</a>
+                                                        <input name="serial_passport" th:value="${el.getSerial_passport()}"><br/>
+                                                        <a>Номер  паспорта:</a>
+                                                        <input name="number_passport" th:value="${el.getNumber_passport()}"><br/>
+                                                        <a>Дата рожения:</a>
+                                                        <input name="birthday" th:value="${el.getBirthday()}"><br/>
+                                                        <a>Телефон:</a>
+                                                        <input name="phone" th:value="${el.getPhone()}"><br/>
+                                                        <input type="submit" value="Подтвердить" class="bot2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
+                    <label for="tab-2" class="tab-label">Клиент</label>
+                    <div class="tab-content">
+                        <ul class="content-line inline">
+
+                            <li th:each="el: ${list_client}" style="margin: 10px;text-align:Center">
+                                <h3 th:text="${el.getSurname()}"> </h3>
+                                <p th:text=" ${el.getName} + ' '     + ${el.getMiddleName()}"></p>
+                                <p th:text="'ID: ' + ${el.getId()}"></p>
+                                <a th:href="'#openModale'+${el.getId()}" class="bot2">Изменить данные</a>
+                                <form action="/edit_user" th:object="${user}" method="post">
+                                    <div th:id="'openModale'+${el.getId()}" class="modal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title">Изменение данные</h3>
+
+
+                                                    <a th:href="'#closee'+${el.getId()}" title="Close" class="close">×</a>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input name="id" type="hidden" th:value="${el.getId()}">
+                                                    <a>Фамилия:</a>
+                                                    <input name="surname" th:value="${el.getSurname()}"><br/>
+                                                    <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" style="color: red"></div><br>
+                                                    <a>Имя:</a>
+                                                    <input name="name" th:value="${el.getName}"><br/>
+                                                    <a>Отчество:</a>
+                                                    <input name="middleName" th:value="${el.getMiddleName()}"><br/>
+                                                    <a>Серия паспорта:</a>
+                                                    <input name="serial_passport" th:value="${el.getSerial_passport()}"><br/>
+                                                    <a>Номер  паспорта:</a>
+                                                    <input name="number_passport" th:value="${el.getNumber_passport()}"><br/>
+                                                    <a>Дата рожения:</a>
+                                                    <input name="birthday" th:value="${el.getBirthday()}"><br/>
+                                                    <a>Телефон:</a>
+                                                    <input name="phone" th:value="${el.getPhone()}"><br/>
+                                                    <input type="submit" value="Подтвердить" class="bot2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
+                    <label for="tab-3" class="tab-label">Книга</label>
+                    <div class="tab-content">
+                        <ul class="content-line inline">
+
+                            <li th:each="el: ${list_book}" style="margin: 10px;text-align:Center">
+                                <h3 th:text="${el.getnamebooks()}"> </h3>
+                                <p th:text=" ${el.getgenre()}"></p>
+                                <p th:text="${el.getauthor()}"></p>
+                                <p th:text="${el.getyearrelese()}"></p>
+                                <a class="bot4" th:href="'/Dellbook/'+${el.getId()}">Delete</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
+                    <label for="tab-4" class="tab-label">Поставщик</label>
+                    <div class="tab-content">
+                        <ul class="content-line inline">
+                            <li th:each="el: ${list_provider}" style="margin: 10px;text-align:Center">
+                                <form th:action="'/Dellprovider/'+${el.getId()}" method="post">
+                                    <h3 th:text="${el.getNameprovider()}"> </h3>
+                                    <p th:text=" ${el.getPhone()}"></p>
+                                    <p th:text=" ${el.getAddress()}"></p>
+                                    <input type="submit" class="bot4">Delete</input>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab">
+                    <input type="radio" name="css-tabs" id="tab-5" class="tab-switch">
+                    <label for="tab-5" class="tab-label">Абонимент</label>
+                    <div class="tab-content">
+                        <ul class="content-line inline">
+
+                            <li th:each="el: ${list_membership}" style="margin: 10px;text-align:Center">
+                                <h3 th:text="${el.getPeriod()}"> </h3>
+                                <p th:text=" ${el.getPrice()}"></p>
+                                <p th:text=" ${el.getDateregistration()}"></p>
+                                <a class="bot4" th:href="'/Dellmembership/'+${el.getId()}">Delete</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+
+</div>
+</body>
+</html>

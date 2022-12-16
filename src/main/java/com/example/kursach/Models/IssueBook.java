@@ -1,6 +1,8 @@
 package com.example.kursach.Models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import java.util.Date;
 
 @Entity
@@ -9,6 +11,7 @@ public class IssueBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @FutureOrPresent(message = "Дата должна быть позже или сегоднешней")
     private Date data;
     private boolean status;
     

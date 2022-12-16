@@ -31,26 +31,24 @@ public class User {
 
     private String middleName;
     @NotNull(message = "Обязательное поле")
-    @NotNull(message = "Обязательное поле")
     private int number_passport;
     @NotNull(message = "Обязательное поле")
     private int serial_passport;
     @NotNull(message = "Обязательное поле")
     private Date birthday;
-    @Pattern(regexp = "^[+][0-9][(][0-9][0-9][0-9][)][0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9]$", message = "Телефон должна быть записана в формате 8(***)-***-**-**")
+    @Pattern(regexp = "^[+][0-9][(][0-9][0-9][0-9][)][0-9][0-9][0-9][-][0-9][0-9][-][0-9][0-9]$", message = "Телефон должна быть записана в формате 8(***)***-**-**")
     private String phone;
 
     @Pattern(regexp = "^[a-zA-Z0-9]{6,15}$",
             message = "имя пользователя должно быть длиной от 6 до 15 и не содержать специальных символов")
     private String username;
+//    @Pattern(regexp = "^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,30}$"
+//    ,message = "Как минимум 1 заглавная буква, как минимум 1 строчная буква и как минимум 1 цифра. От 8 до 30 символов")
     private String password;
     private Boolean active;
     @ManyToOne(optional = true, cascade = CascadeType.DETACH)
     private Membership membership;
-//    @ManyToMany(cascade = CascadeType.DETACH)
-//    @JoinTable(name = "history",
-//            joinColumns = @JoinColumn(name ="user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "issuebook_id"))
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<IssueBook> issuebooks;
 

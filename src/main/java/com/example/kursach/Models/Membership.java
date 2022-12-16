@@ -3,6 +3,7 @@ package com.example.kursach.Models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
 
@@ -12,7 +13,9 @@ public class Membership {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Size(min = 1,max = 50,message = "Поле не должно быть пустым")
     private String period;
+    @Size(min = 1,max = 100,message = "Поле не должно быть пустым")
     private String price;
     private Date dateregistration;
     @JsonIgnore

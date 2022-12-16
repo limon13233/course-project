@@ -28,7 +28,6 @@
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-json:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.4.2" level="project" />
-    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4" level="project" />
@@ -86,7 +85,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:5.7.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.7.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:5.7.4" level="project" />
-    <orderEntry type="library" name="Maven: com.mysql:mysql-connector-j:8.0.31" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: com.mysql:mysql-connector-j:8.0.31" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.3.12.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.7.5" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.7" level="project" />
@@ -128,5 +127,61 @@
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.7.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-taglibs:5.7.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-acl:5.7.4" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-swagger2:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: io.swagger:swagger-annotations:1.5.20" level="project" />
+    <orderEntry type="library" name="Maven: io.swagger:swagger-models:1.5.20" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.4" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-common:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-spring-web:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: com.google.guava:guava:20.0" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-metadata:1.2.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.2.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: javax.annotation:javax.annotation-api:1.3.1" level="project" />
+    <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-ui:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise:application:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:injector:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:logger:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise:datastore-runtime:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:invariant:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:tuple:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:function:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:singleton-stream:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:benchmark:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:combinatorics:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:mapstream:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:runtime-compute:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:runtime-field:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:annotation:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:runtime-typemapper:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:runtime-config:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:runtime-core:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:runtime-bulk:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:runtime-welcome:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:runtime-application:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:connector-mysql:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:connector-mariadb:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:connector-postgres:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:connector-sqlite:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.generator:generator-translator:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:codegen:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise.common:stream-support:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise.common:bytebuffer-allocator:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:jvm-version:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise.common:bytebuffer-common:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise.common:immutable-array:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise.common:hashmap:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise:aggregator:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise.common:bytebuffer-pool:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise:license-runtime:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise:style-runtime:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise:virtualcolumn-runtime:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise:join:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.runtime:runtime-join:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:mapbuilder:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise.plugins:spring-runtime:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:json:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.enterprise.plugins:json-stream:3.2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.speedment.common:collection:3.2.2" level="project" />
   </component>
 </module>

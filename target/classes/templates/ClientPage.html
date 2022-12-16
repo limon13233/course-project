@@ -29,15 +29,47 @@
 
         <div class="grid-container">
             <div th:each="el: ${user_p}" class="post-1">
-                <form method="post">
                 <h3>ФИО:</h3>
                 <p th:text="${el.getSurname()} + ' '+${el.getName()} + ' '+${el.getMiddleName()}"></p>
-                <input type="submit" class="bot2" value="Изменить данные">
-                </form>
+                    <a th:href="'#openModal'+${el.getId()}" class="bot2">Изменить данные</a>
+                <input class="bot2" style="width:300px"  >Выйти из аккаунта</input>
+                        <div th:id="'openModal'+${el.getId()}" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title">Изменение данные</h3>
+
+
+                                        <a th:href="'#close'+${el.getId()}" title="Close" class="close">×</a>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form th:object="${user}" method="post">
+                                            <input name="id" type="hidden">
+                                            <a>Фамилия:</a>
+                                            <input th:field="*{surname}" name="surname"><br/>
+                                            <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" style="color: red"></div><br>
+                                            <a>Имя:</a>
+                                            <input name="name" th:value="${el.getName}"><br/>
+                                            <a>Отчество:</a>
+                                            <input name="middleName" th:value="${el.getMiddleName()}"><br/>
+                                            <a>Серия паспорта:</a>
+                                            <input name="serial_passport" th:value="${el.getSerial_passport()}"><br/>
+                                            <a>Номер  паспорта:</a>
+                                            <input name="number_passport" th:value="${el.getNumber_passport()}"><br/>
+                                            <a>Дата рожения:</a>
+                                            <input name="birthday" th:value="${el.getBirthday()}"><br/>
+                                            <a>Телефон:</a>
+                                            <input name="phone" th:value="${el.getPhone()}"><br/>
+                                            <input type="submit" value="Подтвердить" class="bot2">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
             </div>
 
             <div class="post-2">
-                <h3>Список не сданных книг:</h3>
+                <h2 style="text-align:center">Список не сданных книг:</h2>
                 <ul>
                     <li th:each="el: ${list_issue}" style="margin: 10px;text-align:Center">
                         <h3 th:text="${el.getBooks2().getnamebooks()}"></h3>
@@ -47,13 +79,16 @@
             </div>
 
             <div class="post-3">
-                <h3>Каталог:</h3>
+                <h2 style="text-align:center">Каталог:</h2>
                 <ul class="inline">
                     <li th:each="el: ${list_book}"  style="margin: 10px;text-align:Center">
                         <h3 th:text="${el.getnamebooks()}"></h3>
                         <p th:text="'Автор: '+ ${el.getauthor()}"></p>
                     </li>
                 </ul>
+            </div>
+            <div class="post-4">
+
             </div>
     </div>
 

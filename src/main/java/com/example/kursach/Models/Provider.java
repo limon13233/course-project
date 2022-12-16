@@ -1,6 +1,7 @@
 package com.example.kursach.Models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Set;
@@ -11,8 +12,11 @@ public class Provider {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Size(min = 1,max = 100,message = "Поле не должно быть пустым")
     private String nameprovider;
+    @Size(min = 1,max = 16,message = "Поле не должно быть пустым")
     private String phone;
+    @Size(min = 1,max = 100,message = "Поле не должно быть пустым")
     private String address;
     @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER)
     private Collection<order> orders;

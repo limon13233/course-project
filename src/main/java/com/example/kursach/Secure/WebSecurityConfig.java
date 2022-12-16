@@ -26,54 +26,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/**","/login","/registration").permitAll().
-//                antMatchers("/create-order/**","/Delete/order/**","/filter").hasAnyAuthority("USER").
-//                antMatchers("/Edit/**","/ADD/**","/Delete/**").hasAnyAuthority("EMPLOYEE").
-//                antMatchers("/employee/admin/**").hasAnyAuthority("ADMIN").
-                anyRequest().authenticated().
+        http.authorizeRequests().antMatchers("/login", "/registration","/main_login.css","/**").permitAll().
+                antMatchers("/profile").hasAnyAuthority("USER").
+                antMatchers("/Add","/OrderCreate","/AddMeembershipUser","/AddBookUser","/edit","/Statistic","/Delete","/ViewOrder").hasAnyAuthority("EMPLOYEE").
+                antMatchers("/backup","/editrole").hasAnyAuthority("ADMIN").
+        anyRequest().authenticated().
                 and().formLogin().loginPage("/login").permitAll().
                 and().logout().permitAll().
                 and().csrf().disable().cors().disable();
-//        http.authorizeRequests().antMatchers("/employee/add", "/employee/employee-edit").hasRole("EMPLOYEE");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource).
-                    passwordEncoder(passwordEncoder).
+                passwordEncoder(passwordEncoder).
                 usersByUsernameQuery("SELECT username, password, active FROM user WHERE username = ?").
                 authoritiesByUsernameQuery("SELECT u.username, ur.roles FROM user u INNER JOIN user_roles ur on u.id = ur.id_user WHERE username = ?");
     }
+
     @Lazy
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder(8);
     }
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests((requests) -> requests
-//                        .antMatchers("/", "/home").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin((form) -> form
-//                        .loginPage("/login")
-//                        .permitAll()
-//                )
-//                .logout((logout) -> logout.permitAll());
-//
-//        return http.build();
-//    }
-//
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("password")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
 }
+

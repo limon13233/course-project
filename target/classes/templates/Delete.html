@@ -5,8 +5,9 @@
     <title>Админка</title>
     <meta name="description" content="админка">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet"  type="text/css" href="main.css">
     <script src="https://kit.fontawesome.com/4a23243fb41.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
 <!-- Главный контейнер -->
@@ -14,26 +15,46 @@
 
     <!-- Заголовок -->
     <header class="dashboard-header">
-        <h1 class="dashboard-header__logo">Панель Администратора</h1>
+        <h1 class="dashboard-header__logo">Панель Сотрудника</h1>
     </header>
     <nav class="sidebar-menu" th:insert="fragment :: LeftMenuFragment"></nav>
     <!-- Левое меню -->
-
+<script>
+    setTimeout(function() {
+    $('#mydiv').fadeOut('fast');
+}, 5000);
+</script>
     <!-- Главный контент -->
     <main class="main-content">
+        <div th:text="${message}" id="mydiv" style="color:red"></div><br>
         <div class="wrapper">
             <div class="tabs">
                 <div class="tab">
                     <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch">
                     <label for="tab-1" class="tab-label">Сотрудник</label>
                     <div class="tab-content">
-                        <ul class="inline">
+                        <ul class="content-line inline">
 
                             <li th:each="el: ${list_employee}" style="margin: 10px;text-align:Center">
                                 <h3 th:text="${el.getSurname()}"> </h3>
                                 <p th:text=" ${el.getName} + ' '     + ${el.getMiddleName()}"></p>
                                 <p th:text="'ID: ' + ${el.getId()}"></p>
-                                <a class="bot4" th:href="'/Dellemployee/'+${el.getId()}">Delete</a>
+                                <a th:href="'#openModal'+${el.getId()}" class="bot2">Удалить</a>
+                                    <div th:id="'openModal'+${el.getId()}" class="modal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title">Точно хотите удалить?</h3>
+                                                    <a th:href="'#close'+${el.getId()}" title="Close" class="close">×</a>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label>
+                                                        <a class="bot4" th:href="'/Dellemployee/'+${el.getId()}">Delete</a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             </li>
 
                         </ul>
@@ -43,13 +64,28 @@
                     <input type="radio" name="css-tabs" id="tab-2" class="tab-switch">
                     <label for="tab-2" class="tab-label">Клиент</label>
                     <div class="tab-content">
-                        <ul class="inline">
+                        <ul class="content-line inline">
 
                             <li th:each="el: ${list_client}" style="margin: 10px;text-align:Center">
                                 <h3 th:text="${el.getSurname()}"> </h3>
                                 <p th:text=" ${el.getName} + ' '     + ${el.getMiddleName()}"></p>
                                 <p th:text="'ID: ' + ${el.getId()}"></p>
-                                <a class="bot4" th:href="'/Dellemployee/'+${el.getId()}">Delete</a>
+                                <a th:href="'#openModal'+${el.getId()}" class="bot2">Удалить</a>
+                                <div th:id="'openModal'+${el.getId()}" class="modal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title">Точно хотите удалить?</h3>
+                                                <a th:href="'#close'+${el.getId()}" title="Close" class="close">×</a>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label>
+                                                    <a class="bot4" th:href="'/Dellemployee/'+${el.getId()}">Delete</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
 
                         </ul>
@@ -59,14 +95,29 @@
                     <input type="radio" name="css-tabs" id="tab-3" class="tab-switch">
                     <label for="tab-3" class="tab-label">Книга</label>
                     <div class="tab-content">
-                        <ul class="inline">
+                        <ul class="content-line inline">
 
-                            <li th:each="el: ${list_book}" style="margin: 10px;text-align:Center">
+                            <li th:each="el: ${list_book}" style="margin: 10px;text-align:Center;max-width:250px">
                                 <h3 th:text="${el.getnamebooks()}"> </h3>
                                 <p th:text=" ${el.getgenre()}"></p>
                                 <p th:text="${el.getauthor()}"></p>
                                 <p th:text="${el.getyearrelese()}"></p>
-                                <a class="bot4" th:href="'/Dellbook/'+${el.getId()}">Delete</a>
+                                <a th:href="'#openModalb'+${el.getId()}" class="bot2">Удалить</a>
+                                <div th:id="'openModalb'+${el.getId()}" class="modal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title">Точно хотите удалить?</h3>
+                                                <a th:href="'#closeb'+${el.getId()}" title="Close" class="close">×</a>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label>
+                                                    <a class="bot4" th:href="'/Dellbook/'+${el.getId()}">Delete</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
 
                         </ul>
@@ -76,12 +127,29 @@
                     <input type="radio" name="css-tabs" id="tab-4" class="tab-switch">
                     <label for="tab-4" class="tab-label">Поставщик</label>
                     <div class="tab-content">
-                        <ul class="inline">
+                        <ul class="content-line inline">
                             <li th:each="el: ${list_provider}" style="margin: 10px;text-align:Center">
+                                <form th:action="'/Dellprovider/'+${el.getId()}" method="post">
                                 <h3 th:text="${el.getNameprovider()}"> </h3>
                                 <p th:text=" ${el.getPhone()}"></p>
                                 <p th:text=" ${el.getAddress()}"></p>
-                                <a class="bot4" th:href="'/Dellprovider/'+${el.getId()}">Delete</a>
+                                    <a th:href="'#openModalp'+${el.getId()}" class="bot2">Удалить</a>
+                                    <div th:id="'openModalp'+${el.getId()}" class="modal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title">Точно хотите удалить?</h3>
+                                                    <a th:href="'#closep'+${el.getId()}" title="Close" class="close">×</a>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label>
+                                                        <input type="submit" th:value="Delete" class="bot4"></input>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </li>
                         </ul>
                     </div>
@@ -90,20 +158,34 @@
                     <input type="radio" name="css-tabs" id="tab-5" class="tab-switch">
                     <label for="tab-5" class="tab-label">Абонимент</label>
                     <div class="tab-content">
-                            <ul class="inline">
-
+                            <ul class="content-line inline">
                                 <li th:each="el: ${list_membership}" style="margin: 10px;text-align:Center">
                                     <h3 th:text="${el.getPeriod()}"> </h3>
                                     <p th:text=" ${el.getPrice()}"></p>
                                     <p th:text=" ${el.getDateregistration()}"></p>
-                                    <a class="bot4" th:href="'/Dellmembership/'+${el.getId()}">Delete</a>
+                                    <a th:href="'#openModalpm'+${el.getId()}" class="bot2">Удалить</a>
+                                    <div th:id="'openModalpm'+${el.getId()}" class="modal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title">Точно хотите удалить?</h3>
+                                                    <a th:href="'#closepm'+${el.getId()}" title="Close" class="close">×</a>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label>
+                                                        <a class="bot4" th:href="'/Dellmembership/'+${el.getId()}">Delete</a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </li>
                             </ul>
                     </div>
                 </div>
             </div>
         </div>
-
 
     </main>
 

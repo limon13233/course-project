@@ -22,7 +22,7 @@
 
     <!-- Заголовок -->
     <header class="dashboard-header">
-        <h1 class="dashboard-header__logo">Панель Администратора</h1>
+        <h1 class="dashboard-header__logo">Панель Сотрудника</h1>
     </header>
     <nav class="sidebar-menu" th:insert="fragment :: LeftMenuFragment"></nav>
     <!-- Левое меню -->
@@ -52,10 +52,6 @@ $.getJSON("http://localhost:8080/api/user/", function(data) {
 }
 </script>
         <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-        <div>
-            <form action="/BackupExport" method="post"><button >сделать бэкап</button></form>
-            <form action="/BackupImport" method="post"><button >выгрузить бэкап</button></form>
-        </div>
     </main>
 
 

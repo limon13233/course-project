@@ -31,7 +31,11 @@
     <main class="main-content">
 
             <label>
-                <ul class="inline">
+                <form action="/filter" method="get" style="text-align:center">
+                    <input style="margin: 10px; width:400px" name="search" type="text" autocomplete="off" placeholder="Поиск">
+                    <input style="margin: 10px; display:initial" class="bot2" type="submit" value="Найти">
+                </form>
+                <ul class="content-line inline">
                     <li th:each="el: ${list_employee}" style="margin: 10px;text-align:Center">
                         <h3 th:text="${el.getSurname()}"> </h3>
                         <p th:text=" ${el.getName()} + ' '     + ${el.getMiddleName()}"></p>

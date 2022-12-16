@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <nav class="sidebar-menu" th:fragment="LeftMenuFragment">
     <ul class="sidebar-menu__items">
         <li class="sidebar-menu__item">
-            <a href="/" class="sidebar-menu__item-title">
-                <span>Изменить</span>
+            <a sec:authorize="hasAuthority('ADMIN')" href="/editrole" class="sidebar-menu__item-title">
+                <span>Изменить роль</span>
                 <i class="fas fa-caret-down"></i>
             </a>
         </li>
 
-        <li class="sidebar-menu__item">
+        <li sec:authorize="hasAuthority('EMPLOYEE')" class="sidebar-menu__item">
             <a href="/Add" class="sidebar-menu__item-title">
                 <span>Добавить</span>
                 <i class="fas fa-caret-down"></i>
             </a>
-            <ul class="sidebar-menu__subitems">
+            <ul sec:authorize="hasAuthority('EMPLOYEE')" class="sidebar-menu__subitems">
                 <li class="sidebar-menu__subitem">
                     <a href="/OrderCreate">
                         <i class="fas fa-database"></i>
@@ -38,27 +38,39 @@
 
             </ul>
         </li>
-        <li class="sidebar-menu__item">
-            <a href="/" class="sidebar-menu__item-title">
+        <li sec:authorize="hasAuthority('EMPLOYEE')" class="sidebar-menu__item">
+            <a href="/edit" class="sidebar-menu__item-title">
                 <span>Изменить</span>
                 <i class="fas fa-caret-down"></i>
             </a>
         </li>
-        <li class="sidebar-menu__item">
+        <li sec:authorize="hasAuthority('EMPLOYEE')" class="sidebar-menu__item">
             <a href="/Statistic" class="sidebar-menu__item-title">
                 <span>Просмотр статистики</span>
                 <i class="fas fa-caret-down"></i>
             </a>
         </li>
-        <li class="sidebar-menu__item">
+        <li sec:authorize="hasAuthority('EMPLOYEE')" class="sidebar-menu__item">
             <a href="/Delete" class="sidebar-menu__item-title">
                 <span>Удаление данных</span>
                 <i class="fas fa-caret-down"></i>
             </a>
         </li>
-        <li class="sidebar-menu__item">
+        <li sec:authorize="hasAuthority('EMPLOYEE')" class="sidebar-menu__item">
             <a href="/ViewOrder" class="sidebar-menu__item-title">
                 <span>Заказы</span>
+                <i class="fas fa-caret-down"></i>
+            </a>
+        </li>
+        <li sec:authorize="hasAuthority('ADMIN')" class="sidebar-menu__item">
+            <a href="/backup" class="sidebar-menu__item-title">
+                <span>Бэкап БД</span>
+                <i class="fas fa-caret-down"></i>
+            </a>
+        </li>
+        <li class="sidebar-menu__item">
+            <a th:href="@{/logout}" class="sidebar-menu__item-title">
+                <span>Выйти из аккаунта</span>
                 <i class="fas fa-caret-down"></i>
             </a>
         </li>

@@ -14,7 +14,7 @@
 
     <!-- Заголовок -->
     <header class="dashboard-header">
-        <h1 class="dashboard-header__logo">Панель Администратора</h1>
+        <h1 class="dashboard-header__logo">Панель Сотрудника</h1>
     </header>
     <nav class="sidebar-menu" th:insert="fragment :: LeftMenuFragment"></nav>
     <!-- Левое меню -->
@@ -39,10 +39,10 @@
                                 <input th:field="*{middleName}" name="middleName" type="text" placeholder="Отчество" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}" style="color: red"></div><br>
                                 <a>Номер паспорта:</a>
-                                <input th:field="*{number_passport}" name="number_passport" type="text" min="1" max="100" placeholder="Серия/номер паспорта" style="margin:10px"><br>
+                                <input th:field="*{number_passport}" name="number_passport" type="text" min="1" max="100" placeholder="Номер паспорта" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('number_passport')}" th:errors="*{number_passport}" style="color: red"></div><br>
                                 <a>Серия паспорта:</a>
-                                <input th:field="*{serial_passport}" name="serial_passport" type="text" min="1" max="100" placeholder="Серия/номер паспорта" style="margin:10px"><br>
+                                <input th:field="*{serial_passport}" name="serial_passport" type="text" min="1" max="100" placeholder="Серия паспорта" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('serial_passport')}" th:errors="*{serial_passport}" style="color: red"></div><br>
                                 <a>Дата рождения:</a>
                                 <input th:field="*{birthday}" name="birthday" type="text" placeholder="гггг-мм-дд" style="margin:10px"><br>
@@ -58,7 +58,7 @@
                                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></div><br>
 
                                 <input value="1" style="visibility:hidden" name="add"><br>
-                                <input class="btn" type="submit" value="Добавить сотрудника" style="background:LightGreen; margin: 10px">
+                                <input type="submit" value="Добавить сотрудника" class="bot3" style="background:LightGreen; margin: 10px;width:300px">
                             </label>
                         </form>
                     </div>
@@ -69,36 +69,36 @@
                     <div class="tab-content">
                         <form action="/Adduser" th:object="${user}" method="post">
                             <label>
-
+                                <a>Имя:</a>
                                 <input th:field="*{surname}" name="surname" type="text" placeholder="Фамилия" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" style="color: red"></div><br>
-
+                                <a>Фамилия:</a>
                                 <input th:field="*{name}" name="name" type="text" placeholder="Имя" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color: red"></div><br>
-
+                                <a>Отчество:</a>
                                 <input th:field="*{middleName}" name="middleName" type="text" placeholder="Отчество" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}" style="color: red"></div><br>
-
-                                <input th:field="*{number_passport}" name="number_passport" type="text" placeholder="Серия/номер паспорта" style="margin:10px"><br>
+                                <a>Номер паспорта:</a>
+                                <input th:field="*{number_passport}" name="number_passport" type="text" placeholder="Номер паспорта" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('number_passport')}" th:errors="*{number_passport}" style="color: red"></div><br>
-
-                                <input th:field="*{serial_passport}" name="serial_passport" type="text" placeholder="Серия/номер паспорта" style="margin:10px"><br>
+                                <a>Серия паспорта:</a>
+                                <input th:field="*{serial_passport}" name="serial_passport" type="text" placeholder="Серия паспорта" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('serial_passport')}" th:errors="*{serial_passport}" style="color: red"></div><br>
-
+                                <a>Дата рождения:</a>
                                 <input th:field="*{birthday}" name="birthday" type="text" placeholder="гггг-мм-дд" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}" style="color: red"></div><br>
-
-                                <input th:field="*{phone}" name="phone" type="text" placeholder="гггг-мм-дд" style="margin:10px"><br>
+                                <a>Телефон:</a>
+                                <input th:field="*{phone}" name="phone" type="text" placeholder="+8(999)999-99-99" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red"></div><br>
-
-                                <input th:field="*{username}" name="username" type="text" placeholder="гггг-мм-дд" style="margin:10px"><br>
+                                <a>Логин:</a>
+                                <input th:field="*{username}" name="username" type="text" placeholder="Логин" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></div><br>
-
-                                <input th:field="*{password}" name="password" type="password" placeholder="гггг-мм-дд" style="margin:10px"><br>
+                                <a>Пароль:</a>
+                                <input th:field="*{password}" name="password" type="password" placeholder="Пароль" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></div><br>
 
                                 <input value="2" style="visibility:hidden" name="add"><br>
-                                <input class="btn" type="submit" value="Добавить клиента" style="background:LightGreen; margin: 10px">
+                                <input type="submit" value="Добавить клиента" class="bot3" style="background:LightGreen; margin: 10px;width:300px">
                             </label>
                         </form>
                     </div>
@@ -109,21 +109,21 @@
                     <div class="tab-content">
                         <form action="/Addbooks" th:object="${books}" method="post">
                             <label>
-
-                                <input th:field="*{genre}" name="surname" type="text" placeholder="Фамилия" style="margin:10px"><br>
+                                <a>Жанр:</a>
+                                <input th:field="*{genre}" name="surname" type="text" placeholder="Фантастика" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('genre')}" th:errors="*{surname}" style="color: red"></div><br>
-
+                                <a>Название книги:</a>
                                 <input th:field="*{namebooks}" name="namebooks" type="text" placeholder="Имя" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('namebooks')}" th:errors="*{namebooks}" style="color: red"></div><br>
-
-                                <input th:field="*{yearrelese}" name="yearrelese" type="text" placeholder="Отчество" style="margin:10px"><br>
+                                <a>Год выпуска:</a>
+                                <input th:field="*{yearrelese}" name="yearrelese" type="text" placeholder="Год выпуска" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('yearrelese')}" th:errors="*{yearrelese}" style="color: red"></div><br>
-
-                                <input th:field="*{author}" name="author" type="text" placeholder="Серия/номер паспорта" style="margin:10px"><br>
+                                <a>Автор:</a>
+                                <input th:field="*{author}" name="author" type="text" placeholder="Автор" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color: red"></div><br>
 
                                 <input value="3" style="visibility:hidden" name="add"><br>
-                                <input class="btn" type="submit" value="Добавить книгу" style="background:LightGreen; margin: 10px">
+                                <input type="submit" value="Добавить книгу" class="bot3" style="background:LightGreen; margin: 10px;width:300px">
                             </label>
                         </form>
                     </div>
@@ -134,18 +134,18 @@
                     <div class="tab-content">
                         <form action="/Addprovider" th:object="${provider}" method="post">
                             <label>
-
+                                <a>Наименование поставщика:</a>
                                 <input th:field="*{nameprovider}" name="nameprovider" type="text" placeholder="Наименование поставщика" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('nameprovider')}" th:errors="*{nameprovider}" style="color: red"></div><br>
-
-                                <input th:field="*{phone}" name="phone" type="text" placeholder="Телефон" style="margin:10px"><br>
+                                <a>Телефон поставщика:</a>
+                                <input th:field="*{phone}" name="phone" type="text" placeholder="+8(999)999-99-99" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red"></div><br>
-
-                                <input th:field="*{address}" name="address" type="text" placeholder="Адрес" style="margin:10px"><br>
+                                <a>Фактический адрес:</a>
+                                <input th:field="*{address}" name="address" type="text" placeholder="Москва, Пушкинская ул., д. 21" style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red"></div><br>
 
                                 <input value="3" style="visibility:hidden" name="add"><br>
-                                <input class="btn" type="submit" value="Добавить поставщика" style="background:LightGreen; margin: 10px">
+                                <input type="submit" value="Добавить поставщика" class="bot3" style="background:LightGreen; margin: 10px;width:300px">
                             </label>
                         </form>
                     </div>
@@ -156,15 +156,15 @@
                     <div class="tab-content">
                         <form action="/Addmembership" th:object="${membership}" method="post">
                             <label>
-
-                                <input th:field="*{period}" name="period" type="text" placeholder="Наименование поставщика" style="margin:10px"><br>
+                                <a>Период абонемента:</a>
+                                <input th:field="*{period}" name="period" type="text" placeholder="3 мес." style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('period')}" th:errors="*{period}" style="color: red"></div><br>
-
-                                <input th:field="*{price}" name="price" type="text" placeholder="Телефон" style="margin:10px"><br>
+                                <a>Цена:</a>
+                                <input th:field="*{price}" name="price" type="text" placeholder="1000 руб." style="margin:10px"><br>
                                 <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color: red"></div><br>
 
                                 <input value="3" style="visibility:hidden" name="add"><br>
-                                <input class="btn" type="submit" value="Добавить абонимент" style="background:LightGreen; margin: 10px">
+                                <input type="submit" value="Добавить абонимент" class="bot3" style="background:LightGreen; margin: 10px;width:300px">
                             </label>
                         </form>
                     </div>

@@ -22,7 +22,7 @@
 
     <!-- Заголовок -->
     <header class="dashboard-header">
-        <h1 class="dashboard-header__logo">Панель Администратора</h1>
+        <h1 class="dashboard-header__logo">Панель Сотрудника</h1>
     </header>
     <nav class="sidebar-menu" th:insert="fragment :: LeftMenuFragment"></nav>
     <!-- Левое меню -->
@@ -32,12 +32,14 @@
         <div class="grid-container">
         <div class="post-1">
             <h2 style="text-align:center">Книги:</h2>
-            <div th:each="el: ${list_books}" style="margin: 10px;text-align:Left">
+            <div style="overflow-y: scroll;height:90vh;overflow: auto" >
+            <div th:each="el: ${list_books}" style="margin: 10px;text-align:Left;">
                 <h3 th:text="${el.getnamebooks()}"> </h3>
                 <p th:text="'Жанр:'+ ${el.getgenre()}"></p>
                 <p th:text="'Автор: ' + ${el.getauthor()}"></p>
                 <p th:text="'Год выпуска: ' + ${el.getyearrelese()}"></p>
                 <input type="button" class="bot2" value="Добасить в заказ" id="add-item" th:data-parameter1="${el.getnamebooks()}" th:onclick="addInputLine(this.getAttribute('data-parameter1'));"/>
+            </div>
             </div>
         </div>
 <form th:action="@{detail}" method="post">
@@ -75,7 +77,14 @@
     <script>
         var score = 0;
         var nod;
+        let arr = new Array();
         function addInputLine(nab) {
+        if(arr.includes(nab))
+        {
+        alert("Такая книга уже есть в заказе");
+        }
+        else{
+        arr.push(nab);
         score++;
 
         try{
@@ -113,6 +122,7 @@
         node.appendChild(node3);
 
         document.getElementById("parentElement").appendChild(node);
+        }
         }
 
 </script>

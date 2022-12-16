@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface IssuebookRepositorie extends CrudRepository<IssueBook,Long> {
     @Modifying
     @Transactional
-    @Query("DELETE FROM IssueBook WHERE book_id =:title")
+    @Query("DELETE FROM IssueBook WHERE books2_id =:title")
     public void deleteCBin(@Param("title") long id);
     long countBybooks2_id(long id);
     }

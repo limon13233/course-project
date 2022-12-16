@@ -10,8 +10,9 @@ body{
 }
 .main{
 	width: 350px;
-	height: 500px;
+	height: 1200px;
 	background: red;
+
 	overflow: hidden;
 	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
 	border-radius: 10px;
@@ -46,6 +47,7 @@ input{
 	border: none;
 	outline: none;
 	border-radius: 5px;
+
 }
 .button{
 	width: 60%;
@@ -58,6 +60,7 @@ input{
 	font-size: 1em;
 	font-weight: bold;
 	margin-top: 20px;
+	margin-left: 20px
 	outline: none;
 	border: none;
 	border-radius: 5px;
@@ -87,4 +90,7 @@ button:hover{
 }
 #chk:checked ~ .signup label{
 	transform: scale(.6);
+}
+a{
+color:white;
 }

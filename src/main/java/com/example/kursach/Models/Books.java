@@ -1,6 +1,9 @@
 package com.example.kursach.Models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Entity
@@ -9,9 +12,13 @@ public class Books {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Size(min = 1,max = 50,message = "Поле не должно быть пустым")
     private String genre;
+    @Size(min = 1,max = 100,message = "Поле не должно быть пустым")
     private String namebooks;
+    @Size(min = 1,max = 10,message = "Поле не должно быть пустым")
     private String yearrelese;
+    @Size(min = 1,max = 100,message = "Поле не должно быть пустым")
     private String author;
     @OneToMany(mappedBy = "books", fetch = FetchType.LAZY)
     private Collection<BooksOrder> booksorders;

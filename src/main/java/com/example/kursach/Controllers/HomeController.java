@@ -3,6 +3,9 @@ package com.example.kursach.Controllers;
 
 import com.example.kursach.Models.*;
 import com.example.kursach.Repositories.*;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.hibernate.exception.JDBCConnectionException;
+import org.hibernate.exception.spi.SQLExceptionConversionDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -11,11 +14,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.hibernate.exception.JDBCConnectionException;
 
 import javax.validation.Valid;
+import java.io.Console;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 @Controller
 public class HomeController {
@@ -38,16 +46,49 @@ public class HomeController {
     @Autowired
     LibraryfundsRepositorie libraryfundsRepositorie;
 
+    String message;
+
     @GetMapping("/")
     public String index(Model model)
     {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User employee = userRepositorie.findByusername(auth.getName());
+        if(employee==null)
+        {
+            return("redirect:/login");
+        }
+        if(employee.getRoles().contains(Role.USER))
+        {
+            return("redirect:/profile");
+        }
+        if(employee.getRoles().contains(Role.ADMIN))
+        {
+            Iterable<User> users = userRepositorie.findAll();
+            model.addAttribute("list_employee", users);
+            model.addAttribute("listRoles", Role.values());
+            return("redirect:/backup");
+        }
+        if(employee.getRoles().contains(Role.EMPLOYEE))
+        {
+            return("redirect:/Add");
+        }
+
         Iterable<User> users = userRepositorie.findAll();
         model.addAttribute("list_employee", users);
         model.addAttribute("listRoles", Role.values());
         return ("index");
     }
-    @PostMapping("/")
-    public String index(Model model,@RequestParam String[] roles,@RequestParam Long id)
+    @GetMapping("/editrole")
+    public String edit_role(Model model)
+    {
+
+        Iterable<User> users = userRepositorie.findAll();
+        model.addAttribute("list_employee", users);
+        model.addAttribute("listRoles", Role.values());
+        return ("editrole");
+    }
+    @PostMapping("/editrole")
+    public String edit_role(Model model,@RequestParam String[] roles,@RequestParam Long id)
     {
         User user = userRepositorie.findById(id).orElseThrow();
         user.getRoles().clear();
@@ -57,7 +98,7 @@ public class HomeController {
         }
 
         userRepositorie.save(user);
-        return("redirect:/");
+        return("redirect:/editrole");
     }
     @GetMapping("/Add")
     public String Add(User user,Books books,Provider provider,Membership membership)
@@ -70,11 +111,13 @@ public class HomeController {
     {
         if (bindingResult.hasErrors())
             return ("Add");
-        booksRepositorie.save(books);
-        LibraryFund libraryFund = new LibraryFund();
-        libraryFund.setAmount(0);
-        libraryFund.setCopybook(books);
-        libraryfundsRepositorie.save(libraryFund);
+        try {
+            booksRepositorie.insertbook(books.getnamebooks(), books.getgenre(), books.getyearrelese(), books.getauthor());
+        }
+        catch(Exception ex)
+        {
+            System.out.println(ex);
+        }
         return ("redirect:/Add");
     }
 
@@ -160,9 +203,21 @@ public class HomeController {
     public String AddBookUser(Model model)
     {
         Iterable<Books> books= booksRepositorie.findAll();
+        ArrayList<Books> b = new ArrayList<>();
+        for (Books books1:books
+             ) {
+            for (LibraryFund lf: books1.getLibraryFunds()
+                 ) {
+                if(lf.getAmount()>0)
+                {
+                    b.add(books1);
+                    break;
+                }
+            }
+        }
         Iterable<User> users= userRepositorie.findAll();
         model.addAttribute("user",users);
-        model.addAttribute("book",books);
+        model.addAttribute("book",b);
         return ("AddUserBook");
     }
     @PostMapping("/AddBookUser")
@@ -228,7 +283,7 @@ public class HomeController {
         model.addAttribute("list_book", book);
         model.addAttribute("list_membership", ms);
         model.addAttribute("list_provider", pr);
-
+        model.addAttribute("message",message);
         return ("Delete");
     }
 
@@ -243,6 +298,7 @@ public class HomeController {
     @GetMapping("/Dellbook/{id}")
     public String Dellbook(@PathVariable long id)
     {
+        libraryfundsRepositorie.deleteCBin(id);
         issuebookRepositorie.deleteCBin(id);
         booksRepositorie.deleteById(id);
 
@@ -255,11 +311,11 @@ public class HomeController {
 
         return ("redirect:/Delete");
     }
-    @GetMapping("/Dellprovider/{id}")
-    public String Dellprovider(@PathVariable long id)
+    @PostMapping("/Dellprovider/{id}")
+    public String Dellprovider(@PathVariable long id,Model model)
     {
-        providerRepositorie.deleteById(id);
-
+        message = providerRepositorie.deleteById(id);
+        model.addAttribute("message", message);
         return ("redirect:/Delete");
     }
     @GetMapping("/Statistic")
@@ -288,6 +344,7 @@ public class HomeController {
         String command = String.format("mysqldump -u%s --password=%s --add-drop-table --column-statistics=0 --databases %s -r %s",
                 "root", "", "kursach", "D:\\OSPanel\\bec.sql");
         Process process = Runtime.getRuntime().exec(command);
+        //System.out.println(process.exitValue());
         int processComplete = process.waitFor();
         if(processComplete==0)
         {
@@ -345,19 +402,21 @@ public class HomeController {
         orderRepositorie.save(o);
         for (BooksOrder bo:o.getBooksorders()
              ) {
-            libraryfundsRepositorie.save(libraryfundsRepositorie.findBybooks1_id(bo.getBooks().getId()));
+            LibraryFund lf = libraryfundsRepositorie.findBybooks1_id(bo.getBooks().getId());
+            lf.setAmount(bo.getAmount());
+            libraryfundsRepositorie.save(lf);
         }
 
         return("redirect:/ViewOrder");
     }
     @GetMapping("/profile")
-    public String profile(Model model)
+    public String profile(Model model,User user)
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User employee = userRepositorie.findByusername(auth.getName());
-        model.addAttribute("user_p",employee);
+        user = userRepositorie.findByusername(auth.getName());
+        model.addAttribute("user_p",user);
         ArrayList<IssueBook> issueBookArrayList = new ArrayList<>();
-        for (IssueBook is:employee.getIssuebooks()
+        for (IssueBook is:user.getIssuebooks()
              ) {
             if(!is.isStatus())
             {
@@ -365,9 +424,133 @@ public class HomeController {
             }
 
         }
+        model.addAttribute("user",user);
         model.addAttribute("list_issue",issueBookArrayList);
         model.addAttribute("list_book",booksRepositorie.findAll());
 
         return("ClientPage");
     }
+    @PostMapping("/profile")
+    public String profile1(@Valid User user,BindingResult bindingResult,Model model)
+    {
+        if(bindingResult.hasErrors())
+        {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            user = userRepositorie.findByusername(auth.getName());
+            model.addAttribute("user_p",user);
+            ArrayList<IssueBook> issueBookArrayList = new ArrayList<>();
+            for (IssueBook is:user.getIssuebooks()
+            ) {
+                if(!is.isStatus())
+                {
+                    issueBookArrayList.add(is);
+                }
+
+            }
+            model.addAttribute("user",user);
+            model.addAttribute("list_issue",issueBookArrayList);
+            model.addAttribute("list_book",booksRepositorie.findAll());
+
+            return("ClientPage");
+        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User employee = userRepositorie.findByusername(auth.getName());
+        employee.setSurname(user.getSurname());
+        employee.setName(user.getName());
+        employee.setMiddleName(user.getMiddleName());
+        employee.setSerial_passport(user.getSerial_passport());
+        employee.setNumber_passport(user.getNumber_passport());
+        employee.setBirthday(user.getBirthday());
+        employee.setPhone(user.getPhone());
+        userRepositorie.save(employee);
+        return("redirect:/profile");
+    }
+    @GetMapping("/filter")
+    public String EmployeeFilter(Model model,
+                                 @RequestParam(name = "search") String name) {
+
+        List<User> appliances = userRepositorie.findBysurnameContains(name);
+        model.addAttribute("searchRes", appliances);
+        return ("indexFilter");
+    }
+    @GetMapping("/edit")
+    public String Edit(Model model,User user,Books books,Provider provider,Membership membership) {
+        Iterable<User> users = userRepositorie.findAll();
+        Iterable<Membership> ms = membershipRepositorie.findAll();
+        Iterable<Provider> pr = providerRepositorie.findAll();
+        ArrayList<User> employee = new ArrayList<User>();
+        ArrayList<User> client = new ArrayList<User>();
+        Iterable<Books> book = booksRepositorie.findAll();
+
+        for (User us:users) {
+            if(us.getRoles().contains(Role.EMPLOYEE))
+            {
+                employee.add(us);
+            }
+            else
+            {
+                client.add(us);
+            }
+        }
+
+        model.addAttribute("list_employee", employee);
+        model.addAttribute("list_client", client);
+        model.addAttribute("list_book", book);
+        model.addAttribute("list_membership", ms);
+        model.addAttribute("list_provider", pr);
+        return ("Edit");
+    }
+
+    @PostMapping("/edit_user")
+    public String Edit(@Valid User user,BindingResult bindingResult,Model model,@RequestParam long id)
+    {
+
+        if(bindingResult.hasErrors()) {
+
+            return("Edit");
+        }
+        User employee = userRepositorie.findById(id).orElseThrow();
+        employee.setSurname(user.getSurname());
+        employee.setName(user.getName());
+        employee.setMiddleName(user.getMiddleName());
+        employee.setSerial_passport(user.getSerial_passport());
+        employee.setNumber_passport(user.getNumber_passport());
+        employee.setBirthday(user.getBirthday());
+        employee.setPhone(user.getPhone());
+        employee.setPassword(employee.getPassword());
+        employee.setUsername(employee.getUsername());
+        employee.setActive(employee.getActive());
+        userRepositorie.save(employee);
+        return("redirect:/edit");
+
+    }
+
+    @GetMapping("/registration")
+    public String reg(User user)
+    {
+        return("registration");
+    }
+    @PostMapping("/registration")
+    public String reg1(User employee,
+                      Model model) {
+
+        if(userRepositorie.findByusername(employee.getUsername()) != null) {
+            model.addAttribute("error", "Логин занят!");
+            return ("registration");
+        }
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        employee.setActive(true);
+        employee.setRoles(Collections.singleton(Role.USER));
+
+        userRepositorie.save(employee);
+
+        return ("redirect:/login");
+    }
+
+    @GetMapping("/backup")
+    public String backup(User user)
+    {
+        return("Backup");
+    }
+
 }
